@@ -1,6 +1,4 @@
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -79,18 +77,15 @@
         height: 350px;
     }
 
-    .container-whole {
+    .container {
         width: 100% !important;
     }
 
     .warnings {
-        font-family: "Urbanist", serif;
         margin-top: 5px;
         font-size: 11px;
         color: red;
-        position: absolute;
     }
-
 
     label {
         --c: #547980;
@@ -148,11 +143,66 @@
         view-timeline: --thumb-view inline;
     }
 
-
     output {
         animation: range linear both;
         animation-timeline: --thumb-view;
         animation-range: entry 100% exit 0%;
+    }
+
+    .output1:before {
+        content: "Enter Your Current Age";
+        counter-reset: num var(--val);
+        position-anchor: --thumb;
+        position: absolute;
+        position-area: top;
+        color: black;
+        font-weight: bold;
+        font-family: sans-serif;
+        text-align: center;
+        font-size: 10px;
+        width: 13em;
+        background: #F89585;
+        margin-bottom: 9px;
+        --e: var(--val);
+        transition: --e .1s ease-out;
+        rotate: calc((var(--e) - var(--val))*2deg);
+        padding-block: 0.4em;
+        transform-origin: 50% calc(120% + var(--s)/2);
+        /* Adjusted to control the space above slider */
+        border-bottom: var(--t) solid #0000;
+        border-radius: 6px;
+
+
+    }
+
+    output:before {
+        content: "Enter Your Current Age";
+        counter-reset: num var(--val);
+        position-anchor: --thumb;
+        position: absolute;
+        position-area: top;
+        color: black;
+        font-weight: bold;
+        font-family: sans-serif;
+        text-align: center;
+        font-size: 10px;
+        width: 31em;
+        background: #F89585;
+        margin-bottom: 9px;
+        --e: var(--val);
+        transition: --e .1s ease-out;
+        rotate: calc((var(--e) - var(--val))*2deg);
+        padding-block: 0.4em;
+        transform-origin: 50% calc(120% + var(--s)/2);
+        /* Adjusted to control the space above slider */
+        border-bottom: var(--t) solid #0000;
+        border-radius: 6px;
+
+
+    }
+
+    .output2::before {
+        content: "Enter The Planned Training Duration in weeks (e.g. 6 weeks)";
     }
 
     output.bottom:before {
@@ -176,6 +226,12 @@
         100% {
             background: #CC333F;
             --val: var(--min)
+        }
+    }
+
+    @supports not (anchor-name: ---) {
+        output {
+            display: none;
         }
     }
 
@@ -258,7 +314,6 @@
         font-size: 36.71px;
         font-weight: 600;
         line-height: 44.06px;
-        border: 2px solid black;
     }
 
     #fitness-special-text {
@@ -308,7 +363,7 @@
     .vo2-form-hr {
         border: 1.5px solid #F89585;
         opacity: 100;
-        margin-top: 1.4rem;
+        margin-top: 1rem;
         margin-bottom: 2.5rem;
     }
 
@@ -365,7 +420,6 @@
         /* Add max width for better control */
     }
 
-
     /* Dropdown heading box */
     .dropdown-heading {
         font-family: "Urbanist", serif;
@@ -389,7 +443,9 @@
     }
 
     .dropdown-options {
-        margin-top: 4.5px;
+        position: absolute;
+        top: 27%;
+        left: 0;
         width: 100%;
         background-color: #F89585;
         border: 2px solid white;
@@ -398,7 +454,6 @@
         /* display: none; */
         z-index: 1000;
         text-align: center;
-        border: 2px solid white;
     }
 
     .dropdown-options div {
@@ -428,15 +483,14 @@
         display: block;
     }
 
-    #dropdown-options-status div {
+    #dropdown-options-status div{
         padding: 22px !important;
     }
 
 
-    #dropdown-options-frequency div {
+    #dropdown-options-frequency div{
         padding: 16.5px;
     }
-
     /* Container for Training Type Section */
     .training-type-container {
         margin-bottom: 20px;
@@ -447,19 +501,18 @@
     /* Heading for the Training Type */
     .training-type-heading {
         font-family: "Urbanist", serif;
-        padding: 15px;
+        padding: 12px;
         font-size: 16px;
         font-weight: 600;
         color: #333;
         background-color: white;
+        border: 2px solid #ddd;
         border-radius: 5px;
         cursor: pointer;
         display: flex;
         justify-content: center;
         align-items: center;
         text-align: center;
-        border: 2px solid white;
-        line-height: 19.05px;
     }
 
     .training-options {
@@ -478,7 +531,7 @@
         align-items: center;
         width: 100%;
         background-color: #f9f9f9;
-        border-bottom: 1px solid white;
+        border: 1px solid #ddd;
         cursor: pointer;
         transition: all 0.3s ease;
     }
@@ -489,11 +542,12 @@
 
     .training-option.selected {
         background-color: white;
+        border-color: #F89585;
     }
 
     /* Styling for the button input */
     .training-btn {
-        padding: 7px;
+        padding: 6px;
         background-color: #F89585;
         color: #333;
         cursor: pointer;
@@ -649,7 +703,6 @@
         color: black;
         border-radius: 4px;
         font-weight: 600;
-        border: 2px solid black;
     }
 
     .slider-container-training {
@@ -666,17 +719,7 @@
         font-size: 12px;
         font-weight: 600;
         line-height: 14.4px;
-        margin-top: -53px !important;
-    }
-
-    .slider-info-age {
-        font-family: "Urbanist", serif;
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        font-weight: 600;
-        line-height: 14.4px;
-        margin-top: -30px !important;
+        margin-top: -35px;
     }
 
     .modal-content {
@@ -733,288 +776,23 @@
         margin-top: 4.5px;
     }
 
-    .third-section-mobile {
-        display: none !important;
-    }
-
-    .select-sections {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 15px;
-    }
-
-    .dropdown-container,
-    .training-type-container {
-        flex: 1 1 calc(50% - 10px);
-        /* Take half the width minus the gap */
-    }
-
-    .third-section-mobile {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    #current-fitness-ranking {
-        flex: 1 1 calc(50% - 10px);
-        border: 2px solid white;
-        /* First two elements take half the width minus the gap */
-    }
-
-    #download-pdf,
-    #reset-button {
-        width: 30%;
-    }
-
-
-
-
-    #current_heading {
-        margin-top: -6px;
-        font-size: 23px;
-        color: black;
-        font-weight: bold;
-    }
-
-    #ml {
-        color: black;
-    }
-
-    .new_fitness {
-        border: 4px solid white;
-    }
-
     @media (max-width: 425px) {
-        .select-sections {
 
+        .select-sections,
+        .third-section {
+            display: flex;
+            justify-content: space-between;
             flex-wrap: wrap;
         }
 
-        .training-type-container {
-            max-width: 220px;
-        }
-
-        .dropdown-container,
-        .training-type-container {
-            flex: 1 1 calc(50% - 10px);
-            /* First two boxes take half width */
-        }
-
-        #dropdown-status {
-            align-self: center;
-            /* Center the third box */
-        }
-
-
-        .training-btn {
-            padding: 7px;
-            font-size: 13.52px;
-        }
-
-        .dropdown-options div {
-            font-size: 13.52px;
-        }
-
-        #dropdown-options-frequency div {
-            padding: 20.3px;
-        }
-
-        .third-section {
-            display: none !important;
-        }
-
-        .third-section-mobile {
-            display: flex !important;
-        }
-
-        html body .vo2-calculator {
-            width: 100% !important;
-        }
-
-        #current-fitness-ranking:last-child {
-            margin-top: 10px;
-        }
-
-        #calculator-main-heading {
-            font-size: 22px;
-        }
-
-        #download-pdf,
-        #reset-button {
-            width: 50%;
-        }
-
-        #current-fitness-ranking p {
-            font-size: 14px;
-        }
-
-        #current-vo2max-input {
-            width: 50.25px;
-            height: 40.07px;
-            font-size: 14px;
-        }
-
-        #current_heading {
-            font-size: 15px;
-            line-height: 20px;
-            margin-top: 0;
-        }
-
-        #ml {
-            font-size: 12px;
-            margin-left: -7px;
-        }
-
-        .new_fitness {
-            margin-top: -1px !important;
-            padding: 6px !important;
-        }
-
-        .new_fitness p {
-            font-size: 12px !important;
-            height: 33px;
-        }
-
-
-        #calculator-main-heading {
-            line-height: 29px !important;
-        }
-
-        output:before {
-            font-size: 7px;
-        }
-
-        .output1:before {
-            font-size: 7px;
-        }
-
-        #fitness-special-text {
-            margin-top: -10px;
-            font-size: 20.81px;
-        }
-
-        .fitness-special-text-curr-vo2 {
-            font-size: 17.81px !important;
-        }
-
-        :root {
-            --val: 50;
-            /* Default value */
-            --e: 0;
-            /* Default adjustment */
-            --s: 20px;
-            /* Slider size */
-        }
-
-        .output1:before {
-            content: "Enter Your Current Age";
+        .dropdown-options {
             position: absolute;
-            top: -20px;
-            /* Adjusted for proper positioning above the slider */
-            left: 50%;
-            /* Center align based on the parent element */
-            transform: translateX(-50%);
-            /* Center alignment horizontally */
-            color: black;
-            font-weight: bold;
-            font-family: sans-serif;
-            text-align: center;
-            font-size: 10px;
-            width: 13em;
-            background: #F89585;
-            padding: 0.4em;
-            /* Added padding for better spacing */
-            border-radius: 6px;
-            border-bottom: 2px solid transparent;
-            /* Add visibility if needed */
-            transform-origin: center bottom;
-            /* Center rotation */
-            transition: transform 0.1s ease-out;
-            /* Smooth transformation */
-            transform: rotate(calc((var(--e) - var(--val)) * 2deg));
-            /* Rotation logic */
+            top: 107%;
         }
 
-    }
-
-    @media (min-width: 425px) {
-        .output1:before {
-            content: "Enter Your Current Age";
-            counter-reset: num var(--val);
-            position-anchor: --thumb;
-            position: absolute;
-            position-area: top;
-            color: black;
-            font-weight: bold;
-            font-family: sans-serif;
-            text-align: center;
-            font-size: 10px;
-            width: 13em;
-            background: #F89585;
-            margin-bottom: 9px;
-            --e: var(--val);
-            transition: --e .1s ease-out;
-            rotate: calc((var(--e) - var(--val))*2deg);
-            padding-block: 0.4em;
-            transform-origin: 50% calc(120% + var(--s)/2);
-            /* Adjusted to control the space above slider */
-            border-bottom: var(--t) solid #0000;
-            border-radius: 6px;
-        }
-
-        output:before {
-            content: "Enter Your Current Age";
-            counter-reset: num var(--val);
-            position-anchor: --thumb;
-            position: absolute;
-            position-area: top;
-            color: black;
-            font-weight: bold;
-            font-family: sans-serif;
-            text-align: center;
-            font-size: 10px;
-            width: 31em;
-            background: #F89585;
-            margin-bottom: 9px;
-            --e: var(--val);
-            transition: --e .1s ease-out;
-            rotate: calc((var(--e) - var(--val))*2deg);
-            padding-block: 0.4em;
-            transform-origin: 50% calc(120% + var(--s)/2);
-            /* Adjusted to control the space above slider */
-            border-bottom: var(--t) solid #0000;
-            border-radius: 6px;
-        }
-
-        .output2::before {
-            content: "Enter The Planned Training Duration in weeks (e.g. 6 weeks)";
-        }
-
-        @supports not (anchor-name: ---) {
-            output {
-                display: none;
-            }
-        }
-    }
-
-    @media (max-width: 375px) {
-        .fitness-special-text-curr-vo2 {
-            margin-top: 32px !important;
-            font-size: 17.81px !important;
-            display: block;
-            /* or flex */
-        }
-
+        .training-type-container,
         #current-fitness-ranking {
-            line-height: 33px !important;
-        }
-    }
-
-    @media (max-width: 768px) and (min-width: 426px) {
-        .vo2-calculator {
-            width: 100%;
+            margin: auto;
         }
     }
 
@@ -1046,15 +824,11 @@
     #container-widget-1623223142583 {
         background-size: 100% !important;
     }
-
-    #calculator-main-heading {
-        line-height: 50px;
-    }
 </style>
 <div id="toaster" class="toaster">
     <p>⚠️ Warning: please enter current vo2 max less than 90!</p>
 </div>
-<div class="container-whole">
+<div class="container">
     <div class="vo2-calculator gradient-box mt-0">
         <h2 id="calculator-main-heading">TRACK & PREDICT YOUR FUTURE FITNESS</h2>
         <form id="vo2Form">
@@ -1063,63 +837,46 @@
                     <div id="left-side">
                         <div id="current-vo2max">
                             <div id="current-vo2max-text" style="margin-bottom: 8px;">
-                                <p id="current_heading">Enter
+                                <p style="margin-top: -6px; font-size: 18px; color: black; font-weight: bold;">Enter
                                     your current VO2 Max Score</p>
                             </div>
                             <span style="width: 20%;">
                                 <input id="current-vo2max-input" type="text">
-                                <span id="ml">(ml/kg/min)</span>
-                                <!-- <span class="warnings" id="current-vo2max-warning" style="margin-left: -118px;">Please
-                                    enter your current
-                                    VO2 Max
-                                    Score.</span> -->
+                                <span style="color: black;">(ml/kg/min)</span>
+                                <span class="warnings" id="current-vo2max-warning"></span>
                             </span>
                         </div>
                         <div class="slider-container" style="position: relative;">
                             <div class="range-slider">
-                                <input type="range" id="age-input" min="18" max="105" value="16" class="slider" />
+                                <input type="range" id="age-input" min="18" max="105" value="40" class="slider" />
                                 <output class="output1"></output>
-                                <!-- <span class="warnings" id="" style="margin-left: 90px; margin-top: 6px;">Please select
-                                    your current age using
-                                    the slider.</span> -->
                             </div>
-                            <div class="slider-info-age">
+                            <div class="slider-info">
                                 <div class="slider-value">18</div>
                                 <div class="slider-value" id="age-value">40</div>
                                 <div class="slider-value">105</div>
                             </div>
                         </div>
-                        <div class="gender-container"
-                            style="display: flex; align-items: center; gap: 21px;  margin-top: 18px;">
-                            <div>
-                                <p id="select-gender-label" style="color: black;">Select Gender</p>
-                                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                                    <div class="gender-box" id="male">M</div>
-                                    <div class="gender-box" id="female">F</div>
-                                </div>
+                        <div class="gender-container" style="margin-top: 18px;">
+                            <p id="select-gender-label" style="color: black;">Select Gender</p>
+                            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                <div class="gender-box active" id="male">M</div>
+                                <div class="gender-box" id="female">F</div>
                             </div>
-                            <div id="currentGenderTextBox"
-                                style="font-family: Urbanist, serif; font-size: 15.5px; display: none; margin-top: 23.5px; color: white; font-weight: 500; border-bottom: 2px solid #F89585;">
-                                male
-                            </div>
-                            <!-- <span class="warnings" id="" style="margin-left: 90px; margin-top: 23.5px;">Please select
-                                your gender (Male or Female).</span> -->
                         </div>
                     </div>
-                    <div id="current-fitness-ranking" class="new_fitness">
+                    <div id="current-fitness-ranking">
                         <p>Current Fitness</p>
                         <p>Ranking</p>
-                        <p style="padding-bottom: 30px; margin-bottom: 40px;">For Your Age:</p>
-                        <span id="fitness-special-text" class="fitness-special-text-curr-vo2">___</span>
+                        <p>For Your Age Group :</p>
+                        <span id="fitness-special-text">___</span>
                     </div>
                 </div>
                 <hr class="vo2-form-hr">
                 <div style="justify-content: center; display: flex;">
-                    <!-- <span class="warnings" id="" style="margin-left: 155px; margin-top: -22.5px;">Please select your
-                        planned training duration using the slider.</span> -->
                     <div class="slider-container-training">
                         <div class="range-slider">
-                            <input type="range" id="training-duration-input" min="1" max="52" value="1"
+                            <input type="range" id="training-duration-input" min="1" max="52" value="15"
                                 class="slider" />
                             <output class="output2" style="margin-top: 40px;"></output>
                         </div>
@@ -1142,10 +899,18 @@
                             <div data-session="3">3 sessions per week</div>
                             <div data-session="4">4+ sessions per week</div>
                         </div>
-                        <!-- <span class="warnings" id="" style="margin-top: 145px;">Please select your
-                            training frequency from the dropdown menu.</span> -->
                     </div>
 
+                    <div class="dropdown-container" id="dropdown-status">
+                        <div class="dropdown-heading" id="dropdown-heading-status">
+                            Training Status
+                        </div>
+                        <div class="dropdown-options traning-states-options" id="dropdown-options-status">
+                            <div data-session="1">Untrained</div>
+                            <div data-session="2">Moderately Trained</div>
+                            <div data-session="3">Well Trained</div>
+                        </div>
+                    </div>
                     <!-- Training Type Section -->
                     <div class="training-type-container" id="training-type-container">
                         <!-- Heading for Training Type -->
@@ -1160,7 +925,7 @@
                                     <label class="training-types-box">
                                         Combined Resistance and HIIT
                                         <input class="traningTypeLimits" type="text" id="combinedInput" name="combined"
-                                            value="0">
+                                            value="2">
                                     </label>
                                 </div>
                             </div>
@@ -1183,29 +948,12 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <span class="warnings" id="" style="margin-top: 7px;">Please select at least one training type
-                            <br>
-                            and enter the number of sessions.</span> -->
-                    </div>
-                    <!-- Training Status Section -->
-
-                    <div class="dropdown-container" id="dropdown-status">
-                        <div class="dropdown-heading" id="dropdown-heading-status">
-                            Training Status
-                        </div>
-                        <div class="dropdown-options traning-states-options" id="dropdown-options-status">
-                            <div data-session="1">Untrained</div>
-                            <div data-session="2">Moderately Trained</div>
-                            <div data-session="3">Well Trained</div>
-                        </div>
-                        <!-- <span class="warnings" id="" style="margin-top: 145px;">Please select your current training
-                            status from the dropdown menu. -->
                     </div>
                 </div>
 
                 <hr class="vo2-form-hr">
 
-                <h2 id="calculator-main-heading">AFTER <span class="weeks-input" id="weeks-durations">_</span>
+                <h2 id="calculator-main-heading">AFTER <span class="weeks-input" id="weeks-durations">___</span>
                     WEEKS TRAINING</h2>
 
 
@@ -1222,32 +970,14 @@
                             id="fitness-special-text">%</span>
                     </div>
                     <div id="current-fitness-ranking">
-                        <p>Improved VO2</p>
-                        <p>Max Score</p>
+                        <p>VO2 Max</p>
+                        <p>Score</p>
                         <span id="fitness-special-text" class="new-vo2-max">___</span>
                     </div>
                 </div>
-                <div class="third-section-mobile" style="display: flex; gap: 10px;">
-                    <div id="current-fitness-ranking">
-                        <p>Improved Fitness Ranking</p>
-                        <span id="fitness-special-text" class="improve-fitness-ranking">___</span>
-                    </div>
-                    <div id="current-fitness-ranking">
-                        <p>Improved VO2 Max Score</p>
-                        <span id="fitness-special-text" class="new-vo2-max">___</span>
-                    </div>
-                    <div id="current-fitness-ranking" style="width: 51%;">
-                        <p>Your Predicted Fitness</p>
-                        <p>Improvement</p>
-                        <span id="fitness-special-text" class="predicted-percetage">___</span><span
-                            id="fitness-special-text">%</span>
-                    </div>
-                </div>
-                <div style="display: flex; margin-top: 25px; gap: 20px; justify-content: space-between;">
-                    <button id="download-pdf" style="background-color: #4E6F82;" type="button">Share
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <button id="download-pdf" style="width: 30%; background-color: #4E6F82;" type="button">Share
                         Results</button>
-                    <button id="reset-button" style="background-color: #4E6F82;" type="button">
-                        Reset</button>
                 </div>
         </form>
     </div>
@@ -1355,7 +1085,9 @@
                 <img class="background-image"
                     src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-4_session-5837089.png"
                     alt="Background Image">
-
+                <img class="centered-gif" style="height: 58px; top: 13%;"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-5837088.gif"
+                    alt="Centered GIF">
             </div>
         </div>
     </div>
@@ -1386,7 +1118,9 @@
                 <img class="background-image"
                     src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-moderately-trained-5837477.png"
                     alt="Background Image">
-
+                <img class="centered-gif"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-moderately-trained-5837477.gif"
+                    alt="Centered GIF">
             </div>
         </div>
     </div>
@@ -1438,10 +1172,10 @@
 
             // Update slider fill before thumb
             ageSlider.style.background = `linear-gradient(
-                to right,
-                black ${blackPercentage}%,
-                white ${whitePercentage}%
-            )`;
+        to right,
+        black ${blackPercentage}%,
+        white ${whitePercentage}%
+      )`;
 
             // Update displayed value
             ageValueDisplay.textContent = `${value}`;
@@ -1449,14 +1183,10 @@
 
         // Initialize slider on load
         updateAgeSlider();
-        ageSlider.dataset.touched = "false";
 
 
         // Add event listener to update on input change
-        ageSlider.addEventListener('input', function () {
-            ageSlider.dataset.touched = "true";
-            updateAgeSlider();
-        });
+        ageSlider.addEventListener('input', updateAgeSlider);
 
 
 
@@ -1479,23 +1209,20 @@
 
             // Update slider fill before thumb
             trainingDurationSlider.style.background = `linear-gradient(
-                to right,
-                black ${blackPercentage}%,
-                white ${whitePercentage}%
-            )`;
+       to right,
+       black ${blackPercentage}%,
+       white ${whitePercentage}%
+     )`;
 
             durationValueDisplay.textContent = `${value}`;
         }
 
         // Initialize slider on load
         updateDurationSlider();
-        trainingDurationSlider.dataset.touched = "false";
+
 
         // Add event listener to update on input change
-        trainingDurationSlider.addEventListener('input', function () {
-            trainingDurationSlider.dataset.touched = "true";
-            updateDurationSlider();
-        });
+        trainingDurationSlider.addEventListener('input', updateDurationSlider);
 
 
         const currentVo2Max = document.querySelector('#current-vo2max-input');
@@ -1545,10 +1272,6 @@
         const form = document.getElementById('vo2Form');
 
         const calculateVO2Max = () => {
-            if (!validateFormFeildsBeforeCalculteCurrentFitness()) {
-                return;
-            }
-
             const currentGenderValue = getSelectedGender();
 
             const currentVo2MaxValue = currentVo2Max.value;
@@ -1556,10 +1279,6 @@
             let messageForCurrentVo2Max = getMessage(currentVo2MaxValue, ageSlider.value, currentGenderValue);
 
             document.querySelector('#fitness-special-text').textContent = messageForCurrentVo2Max;
-
-            if (!validateFormFeildsBeforeCalculteNewFitness()) {
-                return;
-            }
 
             const iBase = getIBaseValue();
             const fStatus = getTrainingStatusValue();
@@ -1569,58 +1288,32 @@
             const fFrequency = getFrequencyValue();
             // const dDays = trainingDurationSlider.value / 10;
 
-            //  Implementation Using Exponential Decay :
-
+            // non-linear improvement curve (Implementing)
+            
             const dWeeks = Number(trainingDurationSlider.value);
 
-            const dNormalized = 1 - Math.exp(-dWeeks / 12);
+            const dNormalized = Math.log(1 + dWeeks) / Math.log(13);
 
-            const dDays = dNormalized * 1.2; // Scale to a 0–1.2 range for calculations
-
+            const dDays = dNormalized * 12 / 10;
 
 
             // const dDays = 12/10;
-
+            
             const roundValue = Math.round(((fStatus * fAge * fGender * fType * fFrequency)) * 100) / 100;
 
             const newVo2MaxValue = currentVo2MaxValue * (1 + (iBase * roundValue * dDays));
 
-            document.querySelectorAll('.new-vo2-max').forEach((element) => {
-                element.textContent = newVo2MaxValue.toFixed(2);
-            })
-
-            // document.querySelector('.new-vo2-max').textContent = newVo2MaxValue.toFixed(2);
-            document.querySelectorAll('.predicted-percetage').forEach((element) => {
-                element.innerText = (((newVo2MaxValue - currentVo2MaxValue) / currentVo2MaxValue) * 100).toFixed(2);
-            })
-
+            document.querySelector('.new-vo2-max').textContent = newVo2MaxValue.toFixed(2);
+            document.querySelector('.predicted-percetage').textContent = (((newVo2MaxValue - currentVo2MaxValue) / currentVo2MaxValue) * 100).toFixed(2);
             document.querySelector('#weeks-durations').textContent = trainingDurationSlider.value;
 
             let message = getMessage(newVo2MaxValue, ageSlider.value, currentGenderValue);
-            document.querySelectorAll('.improve-fitness-ranking').forEach((element) => {
-                element.textContent = message; // Update the text content of each element
-            });
+            document.querySelector('.improve-fitness-ranking').textContent = message;
         }
 
         form.addEventListener('change', calculateVO2Max);
-
-        const currentGenderTextBox = document.querySelector('#currentGenderTextBox');
-
-        maleBox.addEventListener("click", () => {
-            currentGenderTextBox.style.display = 'block';
-            maleBox.classList.add("active");
-            femaleBox.classList.remove("active");
-            currentGenderTextBox.textContent = 'Male';
-            calculateVO2Max();
-        });
-
-        femaleBox.addEventListener("click", () => {
-            currentGenderTextBox.style.display = 'block';
-            femaleBox.classList.add("active");
-            maleBox.classList.remove("active");
-            currentGenderTextBox.textContent = 'Female';
-            calculateVO2Max();
-        });
+        maleBox.addEventListener('click', calculateVO2Max);
+        femaleBox.addEventListener('click', calculateVO2Max);
 
         const dropdownOptionsStatus = document.getElementById('dropdown-options-status');
 
@@ -1642,6 +1335,19 @@
             cardioInput.disabled = false;
             resistanceInput.disabled = false;
         }
+
+
+        // new update 
+
+        maleBox.addEventListener("click", () => {
+            maleBox.classList.add("active");
+            femaleBox.classList.remove("active");
+        });
+
+        femaleBox.addEventListener("click", () => {
+            femaleBox.classList.add("active");
+            maleBox.classList.remove("active");
+        });
 
         // Function to handle dropdown behavior for both elements
         function initDropdown(dropdownId, headingId, optionsId) {
@@ -1706,59 +1412,28 @@
 
         // < -- Validate Form Feilds Before Calculation start -- >
 
-        const validateFormFeildsBeforeCalculteCurrentFitness = () => {
-            let allFeildsAreValid = true;
+        // const validateFormFeildsBeforeCalculation = () => {
+        //     let genderSelected = false;
+        //     for (let i = 0; i < gender.length; i++) {
+        //         if (gender[i].checked) {
+        //             genderSelected = true;
+        //             break;
+        //         }
+        //     }
 
-            if (!currentVo2Max.value) {
-                allFeildsAreValid = false;
-            }
+        //     if (
+        //         !trainingDuration.value ||
+        //         !currentVo2Max.value ||
+        //         !genderSelected
+        //     ) {
+        //         return false;
+        //     }
 
-            if (ageSlider.dataset.touched === "false") {
-                allFeildsAreValid = false;
-            }
-
-            if (!maleBox.classList.contains("active") && !femaleBox.classList.contains("active")) {
-                allFeildsAreValid = false;
-            }
-
-            return allFeildsAreValid;
-        }
-
-        const validateFormFeildsBeforeCalculteNewFitness = () => {
-            let allFeildsAreValid = true;
-
-            if (trainingDurationSlider.dataset.touched === "false") {
-                allFeildsAreValid = false;
-            }
-
-            let currentTrainingFrequencyValue = document.querySelector('#dropdown-heading-frequency').innerHTML;
-
-            if (currentTrainingFrequencyValue.trim() === 'Training Frequency') {
-                allFeildsAreValid = false;
-            }
-
-
-            let currentTrainingStatusValue = document.querySelector('#dropdown-heading-status').innerHTML;
-            if (currentTrainingStatusValue.trim() === 'Training Status') {
-                allFeildsAreValid = false;
-            }
-
-            const combinedInput = document.getElementById('combinedInput');
-            const cardioInput = document.getElementById('cardioInput');
-            const resistanceInput = document.getElementById('resistanceInput');
-
-            if (
-                parseInt(combinedInput.value) === 0 &&
-                parseInt(cardioInput.value) === 0 &&
-                parseInt(resistanceInput.value) === 0
-            ) {
-                allFeildsAreValid = false;
-            }
-
-            return allFeildsAreValid;
-        }
+        //     return true;
+        // }
 
         // < -- Validate Form Feilds Before Calculation end -- >
+
 
         const frequency1Model = new bootstrap.Modal(document.getElementById('frequency1Model'));
         const frequency2Model = new bootstrap.Modal(document.getElementById('frequency2Model'));
@@ -1811,48 +1486,6 @@
             handleEventsForFrequency(event);
         });
 
-        const resetButton = document.getElementById('reset-button');
-
-        resetButton.addEventListener('click', function (event) {
-            currentVo2Max.value = '';
-
-            ageSlider.value = 18;
-            ageSlider.dataset.touched = "false";
-            ageSlider.style.setProperty("--range-percentage", "0");
-            ageSlider.style.background = "";
-
-            maleBox.classList.remove("active");
-            femaleBox.classList.remove("active");
-            currentGenderTextBox.style.display = 'none';
-
-            document.querySelector('.fitness-special-text-curr-vo2').innerHTML = '___';
-
-            trainingDurationSlider.value = 1;
-            trainingDurationSlider.dataset.touched = "false";
-            trainingDurationSlider.style.setProperty("--range-percentage", "0");
-            trainingDurationSlider.style.background = "";
-
-            document.querySelector('#dropdown-heading-frequency').innerHTML = 'Training Frequency';
-
-            document.querySelector('#dropdown-heading-status').innerHTML = 'Training Status';
-
-            const combinedInput = document.getElementById('combinedInput');
-            const cardioInput = document.getElementById('cardioInput');
-            const resistanceInput = document.getElementById('resistanceInput');
-            combinedInput.value = 0;
-            cardioInput.value = 0;
-            resistanceInput.value = 0;
-
-            document.querySelector('#weeks-durations').innerHTML = '_';
-
-            combinedInput.disabled = false;
-            cardioInput.disabled = false;
-            resistanceInput.disabled = false;
-
-            document.querySelector('.improve-fitness-ranking').innerHTML = '___';
-            document.querySelector('.predicted-percetage').innerHTML = '___';
-            document.querySelector('.new-vo2-max').innerHTML = '___';
-        });
 
 
         const getIBaseValue = () => {
@@ -1958,7 +1591,7 @@
 
             if (nonZeroInputs.length === 1) {
                 const selectedInputKey = nonZeroInputs[0];
-
+                
                 if (selectedInputKey === 'combined') {
                     trainingTypeNewValue = 1.0;
                 } else if (selectedInputKey === 'cardio') {
