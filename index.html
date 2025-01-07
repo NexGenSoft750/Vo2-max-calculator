@@ -786,6 +786,44 @@
         border: 4px solid white;
     }
 
+
+    .range-slider {
+        position: relative;
+    }
+
+    .slider {
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+        background: #ddd;
+        outline: none;
+        height: 8px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .tooltip {
+        position: absolute;
+        left: 50%;
+        /* Default position */
+        top: -28px;
+        /* Adjust to float above the slider */
+        transform: translateX(-50%);
+        /* Center the tooltip */
+        padding: 5px 10px;
+        background-color: #f89585;
+        color: #000;
+        font-size: 12px;
+        font-weight: bold;
+        font-family: sans-serif;
+        border-radius: 6px;
+        white-space: nowrap;
+        text-align: center;
+        pointer-events: none;
+        opacity: 100;
+        /* Prevent tooltip interaction */
+    }
+
     @media (max-width: 425px) {
         .select-sections {
 
@@ -937,6 +975,13 @@
             /* Rotation logic */
         }
 
+        .tooltip {
+            font-size: 9.5px;
+        }
+
+        .training-type-heading {
+            padding: 25px;
+        }
     }
 
     @media (min-width: 425px) {
@@ -1049,43 +1094,6 @@
 
     #calculator-main-heading {
         line-height: 50px;
-    }
-
-    .range-slider {
-        position: relative;
-    }
-
-    .slider {
-        width: 100%;
-        -webkit-appearance: none;
-        appearance: none;
-        background: #ddd;
-        outline: none;
-        height: 8px;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .tooltip {
-        position: absolute;
-        left: 50%;
-        /* Default position */
-        top: -28px;
-        /* Adjust to float above the slider */
-        transform: translateX(-50%);
-        /* Center the tooltip */
-        padding: 5px 10px;
-        background-color: #f89585;
-        color: #000;
-        font-size: 12px;
-        font-weight: bold;
-        font-family: sans-serif;
-        border-radius: 6px;
-        white-space: nowrap;
-        text-align: center;
-        pointer-events: none;
-        opacity: 100;
-        /* Prevent tooltip interaction */
     }
 </style>
 <div id="toaster" class="toaster">
