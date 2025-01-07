@@ -152,32 +152,44 @@
         animation-timeline: --thumb-view;
         animation-range: entry 100% exit 0%;
     }
-    :root {
-    --val: 50; /* Default value */
-    --e: 0; /* Default adjustment */
-    --s: 20px; /* Slider size */
-}
 
-.output1:before {
-    content: "Enter Your Current Age";
-    position: absolute;
-    top: -20px; /* Adjusted for proper positioning above the slider */
-    left: 50%; /* Center align based on the parent element */
-    transform: translateX(-50%); /* Center alignment horizontally */
-    color: black;
-    font-weight: bold;
-    font-family: sans-serif;
-    text-align: center;
-    font-size: 10px;
-    width: 13em;
-    background: #F89585;
-    padding: 0.4em; /* Added padding for better spacing */
-    border-radius: 6px;
-    border-bottom: 2px solid transparent; /* Add visibility if needed */
-    transform-origin: center bottom; /* Center rotation */
-    transition: transform 0.1s ease-out; /* Smooth transformation */
-    transform: rotate(calc((var(--e) - var(--val)) * 2deg)); /* Rotation logic */
-}
+    :root {
+        --val: 50;
+        /* Default value */
+        --e: 0;
+        /* Default adjustment */
+        --s: 20px;
+        /* Slider size */
+    }
+
+    .output1:before {
+        content: "Enter Your Current Age";
+        position: absolute;
+        top: -20px;
+        /* Adjusted for proper positioning above the slider */
+        left: 50%;
+        /* Center align based on the parent element */
+        transform: translateX(-50%);
+        /* Center alignment horizontally */
+        color: black;
+        font-weight: bold;
+        font-family: sans-serif;
+        text-align: center;
+        font-size: 10px;
+        width: 13em;
+        background: #F89585;
+        padding: 0.4em;
+        /* Added padding for better spacing */
+        border-radius: 6px;
+        border-bottom: 2px solid transparent;
+        /* Add visibility if needed */
+        transform-origin: center bottom;
+        /* Center rotation */
+        transition: transform 0.1s ease-out;
+        /* Smooth transformation */
+        transform: rotate(calc((var(--e) - var(--val)) * 2deg));
+        /* Rotation logic */
+    }
 
 
 
@@ -201,13 +213,12 @@
         padding-block: 0.4em;
         transform-origin: 50% calc(120% + var(--s)/2);
         /* Adjusted to control the space above slider */
-        /* border-bottom: var(--t) solid #0000;
+    /* border-bottom: var(--t) solid #0000;
         border-radius: 6px;
 
 
-    } */ */
-
-    .output2::before {
+    } */
+    */ .output2::before {
         content: "Enter The Planned Training Duration in weeks (e.g. 6 weeks)";
     }
 
@@ -315,6 +326,7 @@
         font-size: 36.71px;
         font-weight: 600;
         line-height: 44.06px;
+        border: 2px solid black;
     }
 
     #fitness-special-text {
@@ -454,6 +466,7 @@
         /* display: none; */
         z-index: 1000;
         text-align: center;
+        border: 2px solid white;
     }
 
     .dropdown-options div {
@@ -507,7 +520,6 @@
         font-weight: 600;
         color: #333;
         background-color: white;
-        border: 2px solid #ddd;
         border-radius: 5px;
         cursor: pointer;
         display: flex;
@@ -532,7 +544,7 @@
         align-items: center;
         width: 100%;
         background-color: #f9f9f9;
-        border: 1px solid #ddd;
+        border-bottom: 1px solid white;
         cursor: pointer;
         transition: all 0.3s ease;
     }
@@ -704,6 +716,7 @@
         color: black;
         border-radius: 4px;
         font-weight: 600;
+        border: 2px solid black;
     }
 
     .slider-container-training {
@@ -813,12 +826,17 @@
 
     #current-fitness-ranking {
         flex: 1 1 calc(50% - 10px);
+        border: 2px solid white;
         /* First two elements take half the width minus the gap */
     }
 
-    #download-pdf {
+    #download-pdf,
+    #reset-button {
         width: 30%;
     }
+
+
+
 
     #current_heading {
         margin-top: -6px;
@@ -829,6 +847,10 @@
 
     #ml {
         color: black;
+    }
+
+    .new_fitness {
+        border: 4px solid white;
     }
 
     @media (max-width: 425px) {
@@ -886,7 +908,8 @@
             font-size: 22px;
         }
 
-        #download-pdf {
+        #download-pdf,
+        #reset-button {
             width: 50%;
         }
 
@@ -935,8 +958,8 @@
         }
 
         #fitness-special-text {
-            margin-top: -10px ;
-            font-size: 20.81px ;
+            margin-top: -10px;
+            font-size: 20.81px;
         }
 
         .fitness-special-text-curr-vo2 {
@@ -949,14 +972,16 @@
         .fitness-special-text-curr-vo2 {
             margin-top: 32px !important;
             font-size: 17.81px !important;
-            display: block; /* or flex */
+            display: block;
+            /* or flex */
         }
+
         #current-fitness-ranking {
             line-height: 33px !important;
         }
     }
 
-    @media (max-width: 768px) and (min-width: 426px){
+    @media (max-width: 768px) and (min-width: 426px) {
         .vo2-calculator {
             width: 100%;
         }
@@ -1054,7 +1079,7 @@
                         <p>Current Fitness</p>
                         <p>Ranking</p>
                         <p style="padding-bottom: 30px; margin-bottom: 40px;">For Your Age:</p>
-                        <span id="fitness-special-text" class="fitness-special-text-curr-vo2" >___</span>
+                        <span id="fitness-special-text" class="fitness-special-text-curr-vo2">___</span>
                     </div>
                 </div>
                 <hr class="vo2-form-hr">
@@ -1074,7 +1099,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="select-sections" style="display: flex; gap: 10px; margin-top: 15px;">
                     <div class="dropdown-container" id="dropdown-frequency">
                         <div class="dropdown-heading" id="dropdown-heading-frequency">
@@ -1187,9 +1212,11 @@
                             id="fitness-special-text">%</span>
                     </div>
                 </div>
-                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                <div style="display: flex; margin-top: 25px; gap: 20px; justify-content: space-between;">
                     <button id="download-pdf" style="background-color: #4E6F82;" type="button">Share
                         Results</button>
+                    <button id="reset-button" style="background-color: #4E6F82;" type="button">
+                        Reset</button>
                 </div>
         </form>
     </div>
@@ -1297,9 +1324,7 @@
                 <img class="background-image"
                     src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-4_session-5837089.png"
                     alt="Background Image">
-                <img class="centered-gif" style="height: 58px; top: 13%;"
-                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-5837088.gif"
-                    alt="Centered GIF">
+               
             </div>
         </div>
     </div>
@@ -1330,9 +1355,7 @@
                 <img class="background-image"
                     src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-moderately-trained-5837477.png"
                     alt="Background Image">
-                <img class="centered-gif"
-                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-moderately-trained-5837477.gif"
-                    alt="Centered GIF">
+               
             </div>
         </div>
     </div>
@@ -1538,7 +1561,7 @@
             // document.querySelector('.new-vo2-max').textContent = newVo2MaxValue.toFixed(2);
             document.querySelectorAll('.predicted-percetage').forEach((element) => {
                 element.innerText = (((newVo2MaxValue - currentVo2MaxValue) / currentVo2MaxValue) * 100).toFixed(2);
-            }) 
+            })
 
             document.querySelector('#weeks-durations').textContent = trainingDurationSlider.value;
 
@@ -1757,6 +1780,48 @@
             handleEventsForFrequency(event);
         });
 
+        const resetButton = document.getElementById('reset-button');
+
+        resetButton.addEventListener('click', function (event) {
+            currentVo2Max.value = '';
+
+            ageSlider.value = 18;
+            ageSlider.dataset.touched = "false";
+            ageSlider.style.setProperty("--range-percentage", "0");
+            ageSlider.style.background = "";
+
+            maleBox.classList.remove("active");
+            femaleBox.classList.remove("active");
+            currentGenderTextBox.style.display = 'none';
+
+            document.querySelector('.fitness-special-text-curr-vo2').innerHTML = '___';
+
+            trainingDurationSlider.value = 1;
+            trainingDurationSlider.dataset.touched = "false";
+            trainingDurationSlider.style.setProperty("--range-percentage", "0");
+            trainingDurationSlider.style.background = "";
+
+            document.querySelector('#dropdown-heading-frequency').innerHTML = 'Training Frequency';
+
+            document.querySelector('#dropdown-heading-status').innerHTML = 'Training Status';
+
+            const combinedInput = document.getElementById('combinedInput');
+            const cardioInput = document.getElementById('cardioInput');
+            const resistanceInput = document.getElementById('resistanceInput');
+            combinedInput.value = 0;
+            cardioInput.value = 0;
+            resistanceInput.value = 0;
+
+            document.querySelector('#weeks-durations').innerHTML = '_';
+
+            combinedInput.disabled = false;
+            cardioInput.disabled = false;
+            resistanceInput.disabled = false;
+
+            document.querySelector('.improve-fitness-ranking').innerHTML = '___';
+            document.querySelector('.predicted-percetage').innerHTML = '___';
+            document.querySelector('.new-vo2-max').innerHTML = '___';
+        });
 
 
         const getIBaseValue = () => {
