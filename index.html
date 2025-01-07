@@ -509,7 +509,7 @@
     /* Slider container and label */
     .slider-container {
         width: 100%;
-        margin-top: 35px;
+        margin-top: 30px;
     }
 
 
@@ -666,7 +666,7 @@
         font-size: 12px;
         font-weight: 600;
         line-height: 14.4px;
-        margin-top: -53px !important;
+        margin-top: -2px !important;
     }
 
     .slider-info-age {
@@ -676,7 +676,7 @@
         font-size: 12px;
         font-weight: 600;
         line-height: 14.4px;
-        margin-top: -30px !important;
+        margin-top: -3px !important;
     }
 
     .modal-content {
@@ -1053,8 +1053,6 @@
 
     .range-slider {
         position: relative;
-        width: 300px;
-        margin: 50px auto;
     }
 
     .slider {
@@ -1072,7 +1070,7 @@
         position: absolute;
         left: 50%;
         /* Default position */
-        top: -40px;
+        top: -28px;
         /* Adjust to float above the slider */
         transform: translateX(-50%);
         /* Center the tooltip */
@@ -1117,7 +1115,7 @@
                         <div class="slider-container" style="position: relative;">
                             <div class="range-slider">
                                 <input type="range" id="age-input" min="18" max="105" value="16" class="slider" />
-                                <div class="tooltip" id="tooltipAge">50</div>
+                                <div class="tooltip" id="tooltipAge">Enter you current age</div>
                                 <!-- <output class="output1"></output> -->
                                 <!-- <span class="warnings" id="" style="margin-left: 90px; margin-top: 6px;">Please select
                                     your current age using
@@ -1161,7 +1159,8 @@
                         <div class="range-slider">
                             <input type="range" id="training-duration-input" min="1" max="52" value="1"
                                 class="slider" />
-                            <div class="tooltip" id="tooltipDuration">50</div>
+                            <div class="tooltip" id="tooltipDuration">Enter The Planned Training Duration in weeks (e.g.
+                                6 weeks)</div>
                             <!-- <output class="output2" style="margin-top: 40px;"></output> -->
                         </div>
                         <div class="slider-info">
@@ -1460,8 +1459,6 @@
             const max = ageSlider.max;
             const value = ageSlider.value;
 
-            tooltip.textContent = value;
-
             // Update black fill dynamically
             const percentage = ((value - min) / (max - min)) * 100;
 
@@ -1509,8 +1506,6 @@
             const min = trainingDurationSlider.min;
             const max = trainingDurationSlider.max;
             const value = trainingDurationSlider.value;
-
-            tooltipDuration.textContent = value;
 
             // Update black fill dynamically
             const percentage = ((value - min) / (max - min)) * 100;
