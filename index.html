@@ -1,0 +1,2294 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Bundle JS (includes Popper.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Roboto", serif;
+    }
+
+    .vo2-calculator {
+        padding: 30px 22px 30px 22px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background: #f9f9f9;
+        font-family: Arial, sans-serif;
+        width: 725px;
+        margin: auto;
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 42px;
+    }
+
+    .input-fields {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+} */
+
+    input,
+    select {
+        margin-top: 5px;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        margin-top: 20px;
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        color: #fff;
+        background: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #0056b3;
+    }
+
+    .result {
+        font-size: 16px;
+        text-align: center;
+        background-color: #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        width: 500px;
+        height: 350px;
+    }
+
+    .container-whole {
+        width: 100% !important;
+    }
+
+    .warnings {
+        font-family: "Urbanist", serif;
+        margin-top: 5px;
+        font-size: 11px;
+        color: red;
+        position: absolute;
+    }
+
+    label {
+        --c: #547980;
+        /* slider color */
+        --g: round(.3em, 1px);
+        /* the gap */
+        --l: round(.2em, 1px);
+        /* line thickness*/
+        --s: round(1.3em, 1px);
+        /* thumb size*/
+        --t: round(.8em, 1px);
+        /* tooltip tail size */
+        --r: round(.8em, 1px);
+        /* tooltip radius */
+
+        timeline-scope: --thumb-view;
+        position: relative;
+        /* No, It's not useless so don't remove it (or remove it and see what happens) */
+    }
+
+    input:focus-visible,
+    input:hover {
+        --p: 25%;
+    }
+
+    input:active,
+    input:focus-visible {
+        --_b: var(--s)
+    }
+
+    /* chromium */
+    input[type="range" i]::-webkit-slider-thumb {
+        height: var(--s);
+        aspect-ratio: 1;
+        border-radius: 50%;
+        box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
+        -webkit-appearance: none;
+        appearance: none;
+        transition: .3s;
+        anchor-name: --thumb;
+        view-timeline: --thumb-view inline;
+    }
+
+    /* Firefox */
+    input[type="range"]::-moz-range-thumb {
+        height: var(--s);
+        width: var(--s);
+        background: none;
+        border-radius: 50%;
+        box-shadow: 0 0 0 var(--_b, var(--l)) inset var(--_c);
+        -moz-appearance: none;
+        appearance: none;
+        transition: .3s;
+        anchor-name: --thumb;
+        view-timeline: --thumb-view inline;
+    }
+
+    output {
+        animation: range linear both;
+        animation-timeline: --thumb-view;
+        animation-range: entry 100% exit 0%;
+    }
+
+    :root {
+        --val: 50;
+        /* Default value */
+        --e: 0;
+        /* Default adjustment */
+        --s: 20px;
+        /* Slider size */
+    }
+
+    .output1:before {
+        content: "Enter Your Current Age";
+        position: absolute;
+        top: -20px;
+        /* Adjusted for proper positioning above the slider */
+        left: 50%;
+        /* Center align based on the parent element */
+        transform: translateX(-50%);
+        /* Center alignment horizontally */
+        color: black;
+        font-weight: bold;
+        font-family: sans-serif;
+        text-align: center;
+        font-size: 10px;
+        width: 13em;
+        background: #F89585;
+        padding: 0.4em;
+        /* Added padding for better spacing */
+        border-radius: 6px;
+        border-bottom: 2px solid transparent;
+        /* Add visibility if needed */
+        transform-origin: center bottom;
+        /* Center rotation */
+        transition: transform 0.1s ease-out;
+        /* Smooth transformation */
+        transform: rotate(calc((var(--e) - var(--val)) * 2deg));
+        /* Rotation logic */
+    }
+
+
+
+    /* output:before {
+        content: "Enter Your Current Age";
+        counter-reset: num var(--val);
+        position-anchor: --thumb;
+        position: absolute;
+        position-area: top;
+        color: black;
+        font-weight: bold;
+        font-family: sans-serif;
+        text-align: center;
+        font-size: 10px;
+        width: 31em;
+        background: #F89585;
+        margin-bottom: 9px;
+        --e: var(--val);
+        transition: --e .1s ease-out;
+        rotate: calc((var(--e) - var(--val))*2deg);
+        padding-block: 0.4em;
+        transform-origin: 50% calc(120% + var(--s)/2);
+        /* Adjusted to control the space above slider */
+    /* border-bottom: var(--t) solid #0000;
+        border-radius: 6px;
+
+
+    } */
+    */ .output2::before {
+        content: "Enter The Planned Training Duration in weeks (e.g. 6 weeks)";
+    }
+
+    output.bottom:before {
+        position-area: bottom;
+        border-top: var(--t) solid #0000;
+        border-bottom: none;
+        rotate: calc((var(--val) - var(--e))*2deg);
+        transform-origin: 50% calc(80% - var(--s)/2);
+        /* Adjusted for bottom tooltip */
+        border-radius: var(--r)/calc(var(--r) + var(--t)) calc(var(--r) + var(--t)) var(--r) var(--r);
+        --_m: 0%/var(--t) calc(var(--t) + 1px) no-repeat;
+        --_g: 0%, #0000 99%, #000 102%;
+    }
+
+    @keyframes range {
+        0% {
+            background: #8A9B0F;
+            --val: var(--max)
+        }
+
+        100% {
+            background: #CC333F;
+            --val: var(--min)
+        }
+    }
+
+
+    #ageOutput {
+        position: relative;
+        top: 10px;
+        /* Adjust to position below the slider */
+        text-align: center;
+        font-size: 16px;
+        color: #333;
+    }
+
+    input[type="range"] {
+        width: 100%;
+        /* Adjust as per your requirement */
+    }
+
+    .gradient-box {
+        background: linear-gradient(to top, #F39383 0%, #4E6F82 45%);
+        /* Gradient from bottom to top */
+
+    }
+
+    #calculator-main-heading {
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 37.5px;
+        color: white;
+        margin-bottom: 1.5rem;
+    }
+
+    .first-section {
+        display: flex;
+        gap: 35px;
+        margin-top: 7px;
+    }
+
+    #current-fitness-ranking {
+        background-color: black;
+        color: white;
+        padding: 15px 15px 8px 15px;
+        font-size: 20.14px;
+        font-weight: 400;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 8.64px;
+        width: 39%;
+    }
+
+    #current-fitness-ranking p {
+        margin-bottom: 0.1em !important;
+    }
+
+    #current-vo2max {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        gap: 10px;
+    }
+
+    #left-side {
+        width: 61%;
+    }
+
+    #current-vo2max-text {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 40px;
+    }
+
+    #current-vo2max-input {
+        font-family: "Urbanist", serif;
+        width: 81.25px;
+        height: 57.07px;
+        border-radius: 4.71px;
+        background-color: white;
+        color: black;
+        outline: none;
+        text-align: center;
+        font-size: 36.71px;
+        font-weight: 600;
+        line-height: 44.06px;
+        border: 3px solid black;
+    }
+
+    #fitness-special-text {
+        font-size: 40.82px;
+        font-weight: 500;
+        line-height: 47.83px;
+        text-align: center;
+        color: #F89585;
+        display: inline-block;
+        margin-top: 8px;
+    }
+
+    #select-gender-label {
+        font-family: "Urbanist", serif;
+        margin-bottom: 0 !important;
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 12.55px;
+    }
+
+    .gender-container {
+        margin-top: 18px;
+    }
+
+    .gender-box {
+        font-family: "Urbanist", serif;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #333;
+        border-radius: 5px;
+        font-size: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        background-color: #333;
+        color: white;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .gender-box.active {
+        background-color: white;
+        color: #333;
+    }
+
+    .vo2-form-hr {
+        border: 1.5px solid #F89585;
+        opacity: 100;
+        margin-top: 1.4rem;
+        margin-bottom: 2.5rem;
+    }
+
+    /* Styling the range slider */
+    .training-duration-input {
+        -webkit-appearance: none;
+        padding: 6px;
+        padding-right: 2px !important;
+        padding-left: 2px !important;
+        width: 100%;
+        height: 21px;
+        background: #ffffff;
+        /* White background for the slider */
+        border-radius: 15px;
+        outline: none;
+        margin: 0;
+        position: relative;
+    }
+
+
+
+    /* Slider thumb (the ball) */
+    .training-duration-input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #F89585;
+        /* #F89585 color for the ball */
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #000;
+        position: relative;
+        top: -1px;
+        z-index: 2;
+    }
+
+    .training-duration-input::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #F89585;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    /* Main container of the dropdown */
+    .dropdown-container {
+        position: relative;
+        width: 80%;
+        /* Allow container to be responsive */
+        max-width: 235px;
+        /* Add max width for better control */
+    }
+
+
+    /* Dropdown heading box */
+    .dropdown-heading {
+        font-family: "Urbanist", serif;
+        padding: 15px;
+        font-size: 15.87px;
+        font-weight: 600;
+        line-height: 19.05px;
+        color: #333;
+        background-color: white;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border: 3px solid black;
+    }
+
+    .dropdown-heading:hover {
+        background-color: #f0f0f0;
+    }
+
+    .dropdown-options {
+        margin-top: 4.5px;
+        width: 100%;
+        background-color: #F89585;
+        border: 2px solid white;
+        border-top: none;
+        border-radius: 5px;
+        /* display: none; */
+        z-index: 1000;
+        text-align: center;
+        border: 4px solid white;
+    }
+
+    .dropdown-options div {
+        font-family: "Urbanist", serif;
+        padding: 10px;
+        font-size: 11.52px;
+        color: #333;
+        border-bottom: 1px solid white;
+        cursor: pointer;
+        height: 28px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .dropdown-options div:last-child {
+        border-bottom: none;
+    }
+
+    .dropdown-options div:hover {
+        background-color: #ffffff;
+        color: #333;
+    }
+
+    /* Dropdown active state */
+    .dropdown-container.active .dropdown-options {
+        display: block;
+    }
+
+    #dropdown-options-status div {
+        padding: 22px !important;
+    }
+
+
+    #dropdown-options-frequency div {
+        padding: 16.5px;
+    }
+
+    /* Container for Training Type Section */
+    .training-type-container {
+        margin-bottom: 20px;
+        max-width: 190px;
+        width: 100%;
+    }
+
+    /* Heading for the Training Type */
+    .training-type-heading {
+        font-family: "Urbanist", serif;
+        padding: 12px;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        background-color: white;
+        border: 3px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .training-options {
+        border: 4px solid white;
+        border-radius: 5px;
+    }
+
+    .training-options input {
+        margin-top: 0px !important;
+    }
+
+    /* Each individual option within the container */
+    .training-option {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .training-option:hover {
+        background-color: #f0f0f0;
+    }
+
+    .training-option.selected {
+        background-color: white;
+        border-color: #F89585;
+    }
+
+    /* Styling for the button input */
+    .training-btn {
+        padding: 6px;
+        background-color: #F89585;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        width: 100%;
+        font-size: 11.52px;
+    }
+
+    /* .training-btn:hover {
+    background-color: #e6006b;
+  } */
+
+    /* Slider container and label */
+    .slider-container {
+        width: 100%;
+        margin-top: 35px;
+    }
+
+
+    .slider-label {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        display: block;
+        text-align: center;
+    }
+
+    /* Range slider styling */
+    .range-slider {
+        position: relative;
+        width: 100%;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: calc(100% + 20px);
+        /* Adjust width for thumb size */
+        height: 6px;
+        background: white;
+        outline: none;
+        border-radius: 10px;
+        overflow: hidden;
+        cursor: pointer;
+        padding-left: 0px;
+        padding-right: 0px;
+
+    }
+
+    /* Black fill on the left of the thumb */
+    .slider::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 6px;
+        background-color: black;
+        z-index: 2;
+        border-radius: 10px;
+    }
+
+    /* #F89585 ball (thumb) */
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #F89585;
+        /* #F89585 color for the ball */
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        z-index: 2;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #F89585;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        cursor: pointer;
+
+    }
+
+    /* Update the black fill dynamically */
+    .slider::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 6px;
+        background-color: black;
+        z-index: 1;
+        border-radius: 10px;
+        transition: width 0.2s ease;
+    }
+
+    /* Slider value display */
+    .slider-value {
+        font-family: "Urbanist", serif;
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
+
+
+    /* Styling the range slider */
+    .slider- {
+        -webkit-appearance: none;
+        padding: 6px;
+        padding-right: 2px !important;
+        padding-left: 2px !important;
+        width: 100%;
+        height: 21px;
+        background: #ffffff;
+        /* White background for the slider */
+        border-radius: 15px;
+        outline: none;
+        margin: 0;
+        position: relative;
+    }
+
+    .slider-::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #F89585;
+        /* #F89585 color for the ball */
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        top: -2px;
+        z-index: 2;
+    }
+
+    .slider-::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #F89585;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    .weeks-input {
+        font-family: "Urbanist", serif;
+        padding: 6px 20px;
+        background-color: white;
+        color: black;
+        border-radius: 4px;
+        font-weight: 600;
+        border: 3px solid black;
+    }
+
+    .slider-container-training {
+        text-align: center;
+        width: 70%;
+    }
+
+
+
+    .slider-info {
+        font-family: "Urbanist", serif;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 14.4px;
+        margin-top: -53px !important;
+    }
+
+    .slider-info-age {
+        font-family: "Urbanist", serif;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 14.4px;
+        margin-top: -30px !important;
+    }
+
+    .modal-content {
+        background: linear-gradient(135deg, #ff7eb3, #ff758c);
+        border: none;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Container for background image and GIF */
+    .image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    /* Background image styling */
+    .background-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Centered GIF styling */
+    .centered-gif {
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100px;
+        height: 75px;
+    }
+
+    .training-types-box {
+        font-family: "Urbanist", serif;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .traningTypeLimits {
+        font-family: "Urbanist", serif;
+        border: none;
+        outline: none;
+        width: 33px;
+        height: 28px;
+        text-align: center;
+    }
+
+    .training-options {
+        margin-top: 4.5px;
+    }
+
+    .third-section-mobile {
+        display: none !important;
+    }
+
+    .select-sections {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .dropdown-container,
+    .training-type-container {
+        flex: 1 1 calc(50% - 10px);
+        /* Take half the width minus the gap */
+    }
+
+    .third-section-mobile {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    #current-fitness-ranking {
+        flex: 1 1 calc(50% - 10px);
+        border: 4px solid white;
+        /* First two elements take half the width minus the gap */
+    }
+
+    #download-pdf {
+        width: 30%;
+    }
+
+    #current_heading {
+        margin-top: -6px;
+        font-size: 23px;
+        color: black;
+        font-weight: bold;
+    }
+
+    #ml {
+        color: black;
+    }
+
+    .new_fitness {
+        border: 4px solid white;
+    }
+
+    @media (max-width: 425px) {
+        .select-sections {
+
+            flex-wrap: wrap;
+        }
+
+        .training-type-container {
+            max-width: 220px;
+        }
+
+        .dropdown-container,
+        .training-type-container {
+            flex: 1 1 calc(50% - 10px);
+            /* First two boxes take half width */
+        }
+
+        #dropdown-status {
+            align-self: center;
+            /* Center the third box */
+        }
+
+
+        .training-btn {
+            padding: 7px;
+            font-size: 13.52px;
+        }
+
+        .dropdown-options div {
+            font-size: 13.52px;
+        }
+
+        #dropdown-options-frequency div {
+            padding: 20.3px;
+        }
+
+        .third-section {
+            display: none !important;
+        }
+
+        .third-section-mobile {
+            display: flex !important;
+        }
+
+        html body .vo2-calculator {
+            width: 100% !important;
+        }
+
+        #current-fitness-ranking:last-child {
+            margin-top: 10px;
+        }
+
+        #calculator-main-heading {
+            font-size: 22px;
+        }
+
+        #download-pdf {
+            width: 50%;
+        }
+
+        #current-fitness-ranking p {
+            font-size: 14px;
+        }
+
+        #current-vo2max-input {
+            width: 50.25px;
+            height: 40.07px;
+            font-size: 14px;
+        }
+
+        #current_heading {
+            font-size: 15px;
+            line-height: 20px;
+            margin-top: 0;
+        }
+
+        #ml {
+            font-size: 12px;
+            margin-left: -7px;
+        }
+
+        .new_fitness {
+            margin-top: -1px !important;
+            padding: 6px !important;
+        }
+
+        .new_fitness p {
+            font-size: 12px !important;
+            height: 33px;
+        }
+
+
+        #calculator-main-heading {
+            line-height: 29px !important;
+        }
+
+        output:before {
+            font-size: 7px;
+        }
+
+        .output1:before {
+            font-size: 7px;
+        }
+
+        #fitness-special-text {
+            margin-top: -10px;
+            font-size: 20.81px;
+        }
+
+        .fitness-special-text-curr-vo2 {
+            font-size: 17.81px !important;
+        }
+    }
+
+
+    @media (max-width: 375px) {
+        .fitness-special-text-curr-vo2 {
+            margin-top: 32px !important;
+            font-size: 17.81px !important;
+            display: block;
+            /* or flex */
+        }
+
+        #current-fitness-ranking {
+            line-height: 33px !important;
+        }
+    }
+
+    @media (max-width: 768px) and (min-width: 426px) {
+        .vo2-calculator {
+            width: 100%;
+        }
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .toaster {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background-color: #f39c12;
+        color: #fff;
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateX(100%);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .toaster.show {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    #container-widget-1623223142583 {
+        background-size: 100% !important;
+    }
+
+    #calculator-main-heading {
+        line-height: 50px;
+    }
+</style>
+<div id="toaster" class="toaster">
+    <p>⚠️ Warning: please enter current vo2 max less than 90!</p>
+</div>
+<div class="container-whole">
+    <div class="vo2-calculator gradient-box mt-0">
+        <h2 id="calculator-main-heading">TRACK & PREDICT YOUR FUTURE FITNESS</h2>
+        <form id="vo2Form">
+            <div class="input-fields">
+                <div class="first-section">
+                    <div id="left-side">
+                        <div id="current-vo2max">
+                            <div id="current-vo2max-text" style="margin-bottom: 8px;">
+                                <p id="current_heading">Enter
+                                    your current VO2 Max Score</p>
+                            </div>
+                            <span style="width: 20%;">
+                                <input id="current-vo2max-input" type="text">
+                                <span id="ml">(ml/kg/min)</span>
+                                <!-- <span class="warnings" id="current-vo2max-warning" style="margin-left: -118px;">Please
+                                    enter your current
+                                    VO2 Max
+                                    Score.</span> -->
+                            </span>
+                        </div>
+                        <div class="slider-container" style="position: relative;">
+                            <div class="range-slider">
+                                <input type="range" id="age-input" min="18" max="105" value="16" class="slider" />
+                                <output class="output1"></output>
+                                <!-- <span class="warnings" id="" style="margin-left: 90px; margin-top: 6px;">Please select
+                                    your current age using
+                                    the slider.</span> -->
+                            </div>
+                            <div class="slider-info-age">
+                                <div class="slider-value">18</div>
+                                <div class="slider-value" id="age-value">40</div>
+                                <div class="slider-value">105</div>
+                            </div>
+                        </div>
+                        <div class="gender-container"
+                            style="display: flex; align-items: center; gap: 21px;  margin-top: 18px;">
+                            <div>
+                                <p id="select-gender-label" style="color: black;">Select Gender</p>
+                                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                                    <div class="gender-box" id="male">M</div>
+                                    <div class="gender-box" id="female">F</div>
+                                </div>
+                            </div>
+                            <div id="currentGenderTextBox"
+                                style="font-family: Urbanist, serif; font-size: 15.5px; display: none; margin-top: 23.5px; color: white; font-weight: 500; border-bottom: 2px solid #F89585;">
+                                male
+                            </div>
+                            <!-- <span class="warnings" id="" style="margin-left: 90px; margin-top: 23.5px;">Please select
+                                your gender (Male or Female).</span> -->
+                        </div>
+                    </div>
+                    <div id="current-fitness-ranking" class="new_fitness">
+                        <p>Current Fitness</p>
+                        <p>Ranking</p>
+                        <p style="padding-bottom: 30px; margin-bottom: 40px;">For Your Age:</p>
+                        <span id="fitness-special-text" class="fitness-special-text-curr-vo2">___</span>
+                    </div>
+                </div>
+                <hr class="vo2-form-hr">
+                <div style="justify-content: center; display: flex;">
+                    <!-- <span class="warnings" id="" style="margin-left: 155px; margin-top: -22.5px;">Please select your
+                        planned training duration using the slider.</span> -->
+                    <div class="slider-container-training">
+                        <div class="range-slider">
+                            <input type="range" id="training-duration-input" min="1" max="52" value="1"
+                                class="slider" />
+                            <output class="output2" style="margin-top: 40px;"></output>
+                        </div>
+                        <div class="slider-info">
+                            <div class="slider-value">1</div>
+                            <div class="slider-value" id="duration-value">15</div>
+                            <div class="slider-value">52</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="select-sections" style="display: flex; gap: 10px; margin-top: 15px;">
+                    <div class="dropdown-container" id="dropdown-frequency">
+                        <div class="dropdown-heading" id="dropdown-heading-frequency">
+                            Training Frequency
+                        </div>
+                        <div class="dropdown-options" id="dropdown-options-frequency">
+                            <div data-session="1">1 session per week</div>
+                            <div data-session="2">2 sessions per week</div>
+                            <div data-session="3">3 sessions per week</div>
+                            <div data-session="4">4+ sessions per week</div>
+                        </div>
+                        <!-- <span class="warnings" id="" style="margin-top: 145px;">Please select your
+                            training frequency from the dropdown menu.</span> -->
+                    </div>
+
+                    <!-- Training Type Section -->
+                    <div class="training-type-container" id="training-type-container">
+                        <!-- Heading for Training Type -->
+                        <div class="training-type-heading" id="training-type-heading">
+                            Training Type
+                        </div>
+
+                        <!-- Training Type Options -->
+                        <div class="training-options" id="training-options">
+                            <div class="training-option" id="option-1">
+                                <div class="training-btn">
+                                    <label class="training-types-box">
+                                        Combined Resistance and HIIT
+                                        <input class="traningTypeLimits" type="text" id="combinedInput" name="combined"
+                                            value="0">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="training-option" id="option-2">
+                                <div class="training-btn">
+                                    <label class="training-types-box">
+                                        Cardio Only
+                                        <input class="traningTypeLimits" type="text" id="cardioInput" name="cardio"
+                                            value="0">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="training-option" id="option-3">
+                                <div class="training-btn">
+                                    <label class="training-types-box">
+                                        Resistance Only
+                                        <input class="traningTypeLimits" type="text" id="resistanceInput"
+                                            name="resistance" value="0">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <span class="warnings" id="" style="margin-top: 7px;">Please select at least one training type
+                            <br>
+                            and enter the number of sessions.</span> -->
+                    </div>
+                    <!-- Training Status Section -->
+
+                    <div class="dropdown-container" id="dropdown-status">
+                        <div class="dropdown-heading" id="dropdown-heading-status">
+                            Training Status
+                        </div>
+                        <div class="dropdown-options traning-states-options" id="dropdown-options-status">
+                            <div data-session="1">Untrained</div>
+                            <div data-session="2">Moderately Trained</div>
+                            <div data-session="3">Well Trained</div>
+                        </div>
+                        <!-- <span class="warnings" id="" style="margin-top: 145px;">Please select your current training
+                            status from the dropdown menu. -->
+                    </div>
+                </div>
+
+                <hr class="vo2-form-hr">
+
+                <h2 id="calculator-main-heading">AFTER <span class="weeks-input" id="weeks-durations">_</span>
+                    WEEKS TRAINING</h2>
+
+
+                <div class="third-section" style="display: flex; gap: 10px;">
+                    <div id="current-fitness-ranking">
+                        <p>Improved</p>
+                        <p>Fitness Ranking</p>
+                        <span id="fitness-special-text" class="improve-fitness-ranking">___</span>
+                    </div>
+                    <div id="current-fitness-ranking" style="width: 51%;">
+                        <p>Your Predicted Fitness</p>
+                        <p>Improvement</p>
+                        <span id="fitness-special-text" class="predicted-percetage">___</span><span
+                            id="fitness-special-text">%</span>
+                    </div>
+                    <div id="current-fitness-ranking">
+                        <p>Improved VO2</p>
+                        <p>Max Score</p>
+                        <span id="fitness-special-text" class="new-vo2-max">___</span>
+                    </div>
+                </div>
+                <div class="third-section-mobile" style="display: flex; gap: 10px;">
+                    <div id="current-fitness-ranking">
+                        <p>Improved Fitness Ranking</p>
+                        <span id="fitness-special-text" class="improve-fitness-ranking">___</span>
+                    </div>
+                    <div id="current-fitness-ranking">
+                        <p>Improved VO2 Max Score</p>
+                        <span id="fitness-special-text" class="new-vo2-max">___</span>
+                    </div>
+                    <div id="current-fitness-ranking" style="width: 51%;">
+                        <p>Your Predicted Fitness</p>
+                        <p>Improvement</p>
+                        <span id="fitness-special-text" class="predicted-percetage">___</span><span
+                            id="fitness-special-text">%</span>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; margin-top: 25px;">
+                    <button id="download-pdf" style="background-color: #4E6F82;" type="button">Share
+                        Results</button>
+                    <button id="reset-button" style="background-color: #4E6F82;" type="button">
+                        Reset</button>
+                </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="cardioModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-type-cardio-only-5837533.png"
+                    alt="Background Image">
+                <img class="centered-gif"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-type-cardio-only-5837532.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="combineModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-type-combine-5837533.png"
+                    alt="Background Image">
+                <img class="centered-gif"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-type-combined-5837534.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="resistanceModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-type-resistance-only-5837535.png"
+                    alt="Background Image">
+                <img class="centered-gif"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-type-resistance-only-5837534.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Frequency  -->
+
+
+<div class="modal fade" id="frequency1Model" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-1-session-5837088.png"
+                    alt="Background Image">
+                <img class="centered-gif" style="height: 53px; top: 12%;"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-5837088.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="frequency2Model" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-2-session-5837088.png"
+                    alt="Background Image">
+                <img class="centered-gif"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-5837088.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="frequency3Model" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-3-session-5837089.png"
+                    alt="Background Image">
+                <img class="centered-gif" style="height: 80px; top: 15%;"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-5837088.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="frequency4Model" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-4_session-5837089.png"
+                    alt="Background Image">
+                <img class="centered-gif" style="height: 58px; top: 13%;"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-frequency-5837088.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- training status  -->
+
+<div class="modal fade" id="status1Model" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-untrained-5837478.png"
+                    alt="Background Image">
+                <img class="centered-gif" style="height: 130px; top: 20%;"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-untrained-5837478.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="status2Model" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-moderately-trained-5837477.png"
+                    alt="Background Image">
+                <img class="centered-gif"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-moderately-trained-5837477.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="status3Model" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered align-items-start">
+        <div class="modal-content">
+            <div class="image-container">
+                <img class="background-image"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-well-trained-5837478.png"
+                    alt="Background Image">
+                <img class="centered-gif"
+                    src="https://content.app-sources.com/s/31153065573882411/uploads/Images/training-status-well-trained-5837478.gif"
+                    alt="Centered GIF">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('shown.bs.modal', () => {
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove(); // Remove the backdrop element for all modals
+        }
+    });
+
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ageSlider = document.getElementById('age-input');
+        const ageValueDisplay = document.getElementById('age-value');
+
+        function updateAgeSlider() {
+            const min = ageSlider.min;
+            const max = ageSlider.max;
+            const value = ageSlider.value;
+
+            // Update black fill dynamically
+            const percentage = ((value - min) / (max - min)) * 100;
+
+            // Calculate black and white percentages with a 6% offset
+            const blackPercentage = Math.max(0, percentage - 6);
+            const whitePercentage = Math.min(100, percentage);
+
+            ageSlider.style.setProperty('--range-percentage', `${percentage}%`);
+
+            // Update slider fill before thumb
+            ageSlider.style.background = `linear-gradient(
+        to right,
+        black ${blackPercentage}%,
+        white ${whitePercentage}%
+      )`;
+
+            // Update displayed value
+            ageValueDisplay.textContent = `${value}`;
+        }
+
+        // Initialize slider on load
+        updateAgeSlider();
+        ageSlider.dataset.touched = "false";
+
+
+        // Add event listener to update on input change
+        ageSlider.addEventListener('input', function () {
+            ageSlider.dataset.touched = "true";
+            updateAgeSlider();
+        });
+
+
+
+        const trainingDurationSlider = document.getElementById('training-duration-input');
+        const durationValueDisplay = document.getElementById('duration-value');
+
+        function updateDurationSlider() {
+            const min = trainingDurationSlider.min;
+            const max = trainingDurationSlider.max;
+            const value = trainingDurationSlider.value;
+
+            // Update black fill dynamically
+            const percentage = ((value - min) / (max - min)) * 100;
+
+            // Calculate black and white percentages with a 6% offset
+            const blackPercentage = Math.max(0, percentage - 5);
+            const whitePercentage = Math.min(100, percentage);
+
+            trainingDurationSlider.style.setProperty('--range-percentage', `${percentage}%`);
+
+            // Update slider fill before thumb
+            trainingDurationSlider.style.background = `linear-gradient(
+                to right,
+                black ${blackPercentage}%,
+                white ${whitePercentage}%
+            )`;
+
+            durationValueDisplay.textContent = `${value}`;
+        }
+
+        // Initialize slider on load
+        updateDurationSlider();
+        trainingDurationSlider.dataset.touched = "false";
+
+        // Add event listener to update on input change
+        trainingDurationSlider.addEventListener('input', function () {
+            trainingDurationSlider.dataset.touched = "true";
+            updateDurationSlider();
+        });
+
+
+        const currentVo2Max = document.querySelector('#current-vo2max-input');
+        const age = document.querySelector('#age');
+        const gender = document.getElementsByName('gender');
+        const trainingDuration = document.querySelector('#trainingDuration');
+        const trainingFrequency = document.querySelector('#trainingFrequency');
+        const trainingType = document.querySelector('#trainingType');
+        const trainingStatus = document.querySelector('#trainingStatus');
+        const maleBox = document.getElementById("male");
+        const femaleBox = document.getElementById("female");
+
+        const status1Model = new bootstrap.Modal(document.getElementById('status1Model'));
+        const status2Model = new bootstrap.Modal(document.getElementById('status2Model'));
+        const status3Model = new bootstrap.Modal(document.getElementById('status3Model'));
+
+        function handleEventsForStatus(event) {
+            const input = event.target;
+            const statusType = input.dataset.session;
+
+            if (!input.dataset.focused) {
+                if (statusType === '1') {
+                    status1Model.show();
+                    setTimeout(() => {
+                        status1Model.hide();
+                    }, 100000);
+                }
+
+                if (statusType === '2') {
+                    status2Model.show();
+                    setTimeout(() => {
+                        status2Model.hide();
+                    }, 100000);
+                }
+
+                if (statusType === '3') {
+                    status3Model.show();
+                    setTimeout(() => {
+                        status3Model.hide();
+                    }, 100000);
+                }
+
+                input.dataset.focused = 'true';
+            }
+        }
+
+        const form = document.getElementById('vo2Form');
+
+        const calculateVO2Max = () => {
+            if (!validateFormFeildsBeforeCalculteCurrentFitness()) {
+                return;
+            }
+
+            const currentGenderValue = getSelectedGender();
+
+            const currentVo2MaxValue = currentVo2Max.value;
+
+            let messageForCurrentVo2Max = getMessage(currentVo2MaxValue, ageSlider.value, currentGenderValue);
+
+            document.querySelector('#fitness-special-text').textContent = messageForCurrentVo2Max;
+
+            if (!validateFormFeildsBeforeCalculteNewFitness()) {
+                return;
+            }
+
+            const iBase = getIBaseValue();
+            const fStatus = getTrainingStatusValue();
+            const fAge = getAgeValue();
+            const fGender = getGenderValue();
+            const fType = getTrainingType();
+            const fFrequency = getFrequencyValue();
+            // const dDays = trainingDurationSlider.value / 10;
+
+            //  Implementation Using Exponential Decay :
+
+            const dWeeks = Number(trainingDurationSlider.value);
+
+            const dNormalized = 1 - Math.exp(-dWeeks / 12);
+
+            const dDays = dNormalized * 1.2; // Scale to a 0–1.2 range for calculations
+
+
+
+            // const dDays = 12/10;
+
+            const roundValue = Math.round(((fStatus * fAge * fGender * fType * fFrequency)) * 100) / 100;
+
+            const newVo2MaxValue = currentVo2MaxValue * (1 + (iBase * roundValue * dDays));
+
+            document.querySelectorAll('.new-vo2-max').forEach((element) => {
+                element.textContent = newVo2MaxValue.toFixed(2);
+            })
+
+            // document.querySelector('.new-vo2-max').textContent = newVo2MaxValue.toFixed(2);
+            document.querySelectorAll('.predicted-percetage').forEach((element) => {
+                element.innerText = (((newVo2MaxValue - currentVo2MaxValue) / currentVo2MaxValue) * 100).toFixed(2);
+            })
+
+            document.querySelector('#weeks-durations').textContent = trainingDurationSlider.value;
+
+            let message = getMessage(newVo2MaxValue, ageSlider.value, currentGenderValue);
+            document.querySelectorAll('.improve-fitness-ranking').forEach((element) => {
+                element.textContent = message; // Update the text content of each element
+            });
+        }
+
+        form.addEventListener('change', calculateVO2Max);
+
+        const currentGenderTextBox = document.querySelector('#currentGenderTextBox');
+
+        maleBox.addEventListener("click", () => {
+            currentGenderTextBox.style.display = 'block';
+            maleBox.classList.add("active");
+            femaleBox.classList.remove("active");
+            currentGenderTextBox.textContent = 'Male';
+            calculateVO2Max();
+        });
+
+        femaleBox.addEventListener("click", () => {
+            currentGenderTextBox.style.display = 'block';
+            femaleBox.classList.add("active");
+            maleBox.classList.remove("active");
+            currentGenderTextBox.textContent = 'Female';
+            calculateVO2Max();
+        });
+
+        const dropdownOptionsStatus = document.getElementById('dropdown-options-status');
+
+        dropdownOptionsStatus.addEventListener('click', function (event) {
+            calculateVO2Max();
+            handleEventsForStatus(event);
+        });
+
+        const resetInputs = () => {
+            const combinedInput = document.getElementById('combinedInput');
+            const cardioInput = document.getElementById('cardioInput');
+            const resistanceInput = document.getElementById('resistanceInput');
+
+            combinedInput.value = 0;
+            cardioInput.value = 0;
+            resistanceInput.value = 0;
+
+            combinedInput.disabled = false;
+            cardioInput.disabled = false;
+            resistanceInput.disabled = false;
+        }
+
+        // Function to handle dropdown behavior for both elements
+        function initDropdown(dropdownId, headingId, optionsId) {
+            const dropdown = document.getElementById(dropdownId);
+            const dropdownHeading = document.getElementById(headingId);
+            const dropdownOptions = document.getElementById(optionsId);
+            const dropdownItems = dropdownOptions.querySelectorAll('div');
+
+            // Toggle dropdown on heading click
+            dropdownHeading.addEventListener('click', () => {
+                dropdown.classList.toggle('active');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!dropdown.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+
+            // Option selection event
+            dropdownItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Set selected option text to dropdown heading
+                    dropdownHeading.innerHTML = item.innerHTML;
+                    dropdown.classList.remove('active'); // Close the dropdown after selection
+                });
+            });
+        }
+
+        // Initialize both dropdowns
+        initDropdown('dropdown-status', 'dropdown-heading-status', 'dropdown-options-status');
+        initDropdown('dropdown-frequency', 'dropdown-heading-frequency', 'dropdown-options-frequency');
+
+        // Function to toggle selection state for training type options
+        function initTrainingTypeOptions() {
+            const options = document.querySelectorAll('.training-option');
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    // Deselect all options
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    // Select the clicked option
+                    option.classList.add('selected');
+                });
+            });
+        }
+
+        // Initialize the training type options
+        initTrainingTypeOptions();
+
+        // < --VO2 Max Calculation end-- >
+
+
+        // Function to determine selected gender
+        function getSelectedGender() {
+            if (maleBox.classList.contains("active")) {
+                return "male";
+            } else if (femaleBox.classList.contains("active")) {
+                return "female";
+            }
+        }
+
+        // < -- Validate Form Feilds Before Calculation start -- >
+
+        const validateFormFeildsBeforeCalculteCurrentFitness = () => {
+            let allFeildsAreValid = true;
+
+            if (!currentVo2Max.value) {
+                allFeildsAreValid = false;
+            }
+
+            if (ageSlider.dataset.touched === "false") {
+                allFeildsAreValid = false;
+            }
+
+            if (!maleBox.classList.contains("active") && !femaleBox.classList.contains("active")) {
+                allFeildsAreValid = false;
+            }
+
+            return allFeildsAreValid;
+        }
+
+        const validateFormFeildsBeforeCalculteNewFitness = () => {
+            let allFeildsAreValid = true;
+
+            if (trainingDurationSlider.dataset.touched === "false") {
+                allFeildsAreValid = false;
+            }
+
+            let currentTrainingFrequencyValue = document.querySelector('#dropdown-heading-frequency').innerHTML;
+
+            if (currentTrainingFrequencyValue.trim() === 'Training Frequency') {
+                allFeildsAreValid = false;
+            }
+
+
+            let currentTrainingStatusValue = document.querySelector('#dropdown-heading-status').innerHTML;
+            if (currentTrainingStatusValue.trim() === 'Training Status') {
+                allFeildsAreValid = false;
+            }
+
+            const combinedInput = document.getElementById('combinedInput');
+            const cardioInput = document.getElementById('cardioInput');
+            const resistanceInput = document.getElementById('resistanceInput');
+
+            if (
+                parseInt(combinedInput.value) === 0 &&
+                parseInt(cardioInput.value) === 0 &&
+                parseInt(resistanceInput.value) === 0
+            ) {
+                allFeildsAreValid = false;
+            }
+
+            return allFeildsAreValid;
+        }
+
+        // < -- Validate Form Feilds Before Calculation end -- >
+
+        const frequency1Model = new bootstrap.Modal(document.getElementById('frequency1Model'));
+        const frequency2Model = new bootstrap.Modal(document.getElementById('frequency2Model'));
+        const frequency3Model = new bootstrap.Modal(document.getElementById('frequency3Model'));
+        const frequency4Model = new bootstrap.Modal(document.getElementById('frequency4Model'));
+
+        function handleEventsForFrequency(event) {
+            const input = event.target;
+            const frequencyType = input.dataset.session;
+
+            if (!input.dataset.focused) {
+                if (frequencyType === '1') {
+                    frequency1Model.show();
+                    setTimeout(() => {
+                        frequency1Model.hide();
+                    }, 100000);
+                }
+
+                if (frequencyType === '2') {
+                    frequency2Model.show();
+                    setTimeout(() => {
+                        frequency2Model.hide();
+                    }, 100000);
+                }
+
+                if (frequencyType === '3') {
+                    frequency3Model.show();
+                    setTimeout(() => {
+                        frequency3Model.hide();
+                    }, 100000);
+                }
+
+                if (frequencyType === '4') {
+                    frequency4Model.show();
+                    setTimeout(() => {
+                        frequency4Model.hide();
+                    }, 100000);
+                }
+
+                input.dataset.focused = 'true';
+            }
+        }
+
+        const dropdownOptionsFrequency = document.getElementById('dropdown-options-frequency');
+
+        // Add an event listener to the container
+        dropdownOptionsFrequency.addEventListener('click', function (event) {
+            calculateVO2Max();
+            resetInputs();
+            handleEventsForFrequency(event);
+        });
+
+
+        const resetButton = document.getElementById('reset-button');
+
+        resetButton.addEventListener('click', function (event) {
+            currentVo2Max.value = '';
+
+            ageSlider.value = 18;
+            ageSlider.dataset.touched = "false";
+            ageSlider.style.setProperty("--range-percentage", "0");
+            ageSlider.style.background = "";
+
+            maleBox.classList.remove("active");
+            femaleBox.classList.remove("active");
+            currentGenderTextBox.style.display = 'none';
+
+            document.querySelector('.fitness-special-text-curr-vo2').innerHTML = '___';
+
+            trainingDurationSlider.value = 1;
+            trainingDurationSlider.dataset.touched = "false";
+            trainingDurationSlider.style.setProperty("--range-percentage", "0");
+            trainingDurationSlider.style.background = "";
+
+            document.querySelector('#dropdown-heading-frequency').innerHTML = 'Training Frequency';
+
+            document.querySelector('#dropdown-heading-status').innerHTML = 'Training Status';
+
+            const combinedInput = document.getElementById('combinedInput');
+            const cardioInput = document.getElementById('cardioInput');
+            const resistanceInput = document.getElementById('resistanceInput');
+            combinedInput.value = 0;
+            cardioInput.value = 0;
+            resistanceInput.value = 0;
+
+            document.querySelector('#weeks-durations').innerHTML = '_';
+
+            combinedInput.disabled = false;
+            cardioInput.disabled = false;
+            resistanceInput.disabled = false;
+
+            document.querySelector('.improve-fitness-ranking').innerHTML = '___';
+            document.querySelector('.predicted-percetage').innerHTML = '___';
+            document.querySelector('.new-vo2-max').innerHTML = '___';
+        });
+
+        const getIBaseValue = () => {
+            let currentTrainingStatusValue = document.querySelector('#dropdown-heading-status').innerHTML;
+
+            currentTrainingStatusValue = currentTrainingStatusValue.trim() === 'Training Status' ? 'Untrained' : currentTrainingStatusValue;
+
+            // const trainingDurationValue = trainingDurationSlider.value;
+            const trainingDurationValue = (Number(trainingDurationSlider.value) >= 12) ? 12 : Number(trainingDurationSlider.value);
+            // const trainingDurationValue = 12;
+
+            const calculateBaseValue = (a, b) => (((a + b) / 2) / 100) * (trainingDurationValue / 10);
+
+            let iBaseNewValue;
+
+            if (currentTrainingStatusValue === 'Untrained') {
+                iBaseNewValue = calculateBaseValue(15, 30);
+            } else if (currentTrainingStatusValue === 'Moderately Trained') {
+                iBaseNewValue = calculateBaseValue(10, 20);
+            } else if (currentTrainingStatusValue === 'Well Trained') {
+                iBaseNewValue = calculateBaseValue(5, 10);
+            }
+
+            return iBaseNewValue;
+        }
+
+        const getTrainingStatusValue = () => {
+            let currentTrainingStatusValue = document.querySelector('#dropdown-heading-status').innerHTML;
+
+            currentTrainingStatusValue = currentTrainingStatusValue.trim() === 'Training Status' ? 'Untrained' : currentTrainingStatusValue;
+
+            let trainingStatusNewValue;
+
+            if (currentTrainingStatusValue === 'Untrained') {
+                trainingStatusNewValue = 1.3;
+            } else if (currentTrainingStatusValue === 'Moderately Trained') {
+                trainingStatusNewValue = 1.1;
+            } else if (currentTrainingStatusValue === 'Well Trained') {
+                trainingStatusNewValue = 1.0;
+            }
+
+            return trainingStatusNewValue;
+        };
+
+        const getAgeValue = () => {
+            const currentAgeValue = ageSlider.value;
+            let ageNewValue;
+
+            if (currentAgeValue >= 18 && currentAgeValue <= 35) {
+                ageNewValue = 1.0;
+            } else if (currentAgeValue >= 36 && currentAgeValue <= 55) {
+                ageNewValue = 1.1;
+            } else if (currentAgeValue >= 56 && currentAgeValue <= 73) {
+                ageNewValue = 1.2;
+            } else if (currentAgeValue >= 74 && currentAgeValue <= 90) {
+                ageNewValue = 1.3;
+            } else if (currentAgeValue > 90) {
+                ageNewValue = 1.4;
+            }
+
+            return ageNewValue;
+        };
+
+        const getGenderValue = () => {
+            const currentGenderValue = getSelectedGender();
+            let genderNewValue;
+
+            if (currentGenderValue === 'male') {
+                genderNewValue = 1.0;
+            } else if (currentGenderValue === 'female') {
+                genderNewValue = 0.9;
+            }
+
+            return genderNewValue;
+        };
+
+        const getTrainingType = () => {
+            let trainingTypeNewValue;
+
+            const combinedInput = document.getElementById('combinedInput');
+            const cardioInput = document.getElementById('cardioInput');
+            const resistanceInput = document.getElementById('resistanceInput');
+
+            const sumResult = parseInt(combinedInput.value) + parseInt(cardioInput.value) + parseInt(resistanceInput.value);
+
+            const combineResult = (combinedInput.value * 1.0) + (cardioInput.value * 0.8) + (resistanceInput.value * 0.6);
+
+            const finalvalue = combineResult / sumResult;
+
+            // let currentTrainingFrequencyValue = document.querySelector('#dropdown-heading-frequency').innerHTML;
+
+            // currentTrainingFrequencyValue = currentTrainingFrequencyValue.trim() === 'Training Frequency' ? '2' : currentTrainingFrequencyValue;
+
+            // currentTrainingFrequencyValue = parseInt(currentTrainingFrequencyValue, 10);
+
+            let inputs = {
+                combined: parseFloat(combinedInput.value) || 0,
+                cardio: parseFloat(cardioInput.value) || 0,
+                resistance: parseFloat(resistanceInput.value) || 0,
+            };
+
+            const nonZeroInputs = Object.keys(inputs).filter(key => inputs[key] > 0);
+
+            if (nonZeroInputs.length === 1) {
+                const selectedInputKey = nonZeroInputs[0];
+
+                if (selectedInputKey === 'combined') {
+                    trainingTypeNewValue = 1.0;
+                } else if (selectedInputKey === 'cardio') {
+                    trainingTypeNewValue = 0.8;
+                } else if (selectedInputKey === 'resistance') {
+                    trainingTypeNewValue = 0.6;
+                }
+            } else {
+                trainingTypeNewValue = finalvalue;
+            }
+
+            return trainingTypeNewValue;
+        }
+
+        const getFrequencyValue = () => {
+            let currentTrainingFrequencyValue = document.querySelector('#dropdown-heading-frequency').innerHTML;
+
+            currentTrainingFrequencyValue = currentTrainingFrequencyValue.trim() === 'Training Frequency' ? '2' : currentTrainingFrequencyValue;
+
+            currentTrainingFrequencyValue = parseInt(currentTrainingFrequencyValue, 10);
+
+            let trainingFrequencyNewValue;
+
+            if (currentTrainingFrequencyValue === 1) {
+                trainingFrequencyNewValue = 0.6;
+            } else if (currentTrainingFrequencyValue === 2) {
+                trainingFrequencyNewValue = 0.8;
+            } else if (currentTrainingFrequencyValue === 3) {
+                trainingFrequencyNewValue = 1.0;
+            } else if (currentTrainingFrequencyValue === 4) {
+                trainingFrequencyNewValue = 1.1;
+            }
+
+            return trainingFrequencyNewValue;
+        };
+
+        const getMessage = (vO2Max, age, gender) => {
+            // Define VO2 max tables for Women
+            const womenTable = [
+                { ageRange: [13, 19], veryPoor: 25, poor: 30.9, fair: 34.9, good: 38.9, excellent: 41.9, superior: Infinity },
+                { ageRange: [20, 29], veryPoor: 23.6, poor: 28.9, fair: 32.9, good: 36.9, excellent: 41.0, superior: Infinity },
+                { ageRange: [30, 39], veryPoor: 22.8, poor: 26.9, fair: 31.4, good: 35.6, excellent: 40.0, superior: Infinity },
+                { ageRange: [40, 49], veryPoor: 21.0, poor: 24.4, fair: 28.9, good: 32.8, excellent: 36.9, superior: Infinity },
+                { ageRange: [50, 59], veryPoor: 20.2, poor: 22.7, fair: 26.9, good: 31.4, excellent: 35.7, superior: Infinity },
+                { ageRange: [60, Infinity], veryPoor: 17.5, poor: 20.1, fair: 24.4, good: 30.2, excellent: 31.4, superior: Infinity }
+            ];
+
+            // Define VO2 max tables for Men
+            const menTable = [
+                { ageRange: [13, 19], veryPoor: 35.0, poor: 38.3, fair: 45.1, good: 50.9, excellent: 55.9, superior: Infinity },
+                { ageRange: [20, 29], veryPoor: 33.0, poor: 36.4, fair: 42.4, good: 46.4, excellent: 52.4, superior: Infinity },
+                { ageRange: [30, 39], veryPoor: 31.5, poor: 35.4, fair: 40.9, good: 44.9, excellent: 49.4, superior: Infinity },
+                { ageRange: [40, 49], veryPoor: 30.2, poor: 33.5, fair: 38.9, good: 43.7, excellent: 48.0, superior: Infinity },
+                { ageRange: [50, 59], veryPoor: 26.1, poor: 30.9, fair: 35.7, good: 40.9, excellent: 45.3, superior: Infinity },
+                { ageRange: [60, Infinity], veryPoor: 20.5, poor: 26.0, fair: 32.2, good: 36.4, excellent: 44.2, superior: Infinity }
+            ];
+
+            // Choose the correct table based on gender
+            const table = gender === 'female' ? womenTable : menTable;
+
+            // Find the correct age group
+            let message = "Age Group Not Found";
+            for (let row of table) {
+                if (age >= row.ageRange[0] && age <= row.ageRange[1]) {
+                    // Determine the VO2 Max category
+                    if (vO2Max < row.veryPoor) {
+                        message = "VERY POOR";
+                    } else if (vO2Max <= row.poor) {
+                        message = "POOR";
+                    } else if (vO2Max <= row.fair) {
+                        message = "FAIR";
+                    } else if (vO2Max <= row.good) {
+                        message = "G00D";
+                    } else if (vO2Max <= row.excellent) {
+                        message = "EXCELLENT";
+                    } else {
+                        message = "SUPERIOR";
+                    }
+                    break;
+                }
+            }
+
+            return message;
+        }
+
+        const traningTypeLimits = document.querySelectorAll('.traningTypeLimits');
+
+        // Attach the event listener to all elements with the class 'traningTypeLimits'
+        traningTypeLimits.forEach((input) => {
+            input.addEventListener('change', updateSessionLimit);
+        });
+
+        function updateSessionLimit() {
+            const combinedInput = document.getElementById('combinedInput');
+            const cardioInput = document.getElementById('cardioInput');
+            const resistanceInput = document.getElementById('resistanceInput');
+
+            let trainingFrequency = document.querySelector('#dropdown-heading-frequency').innerHTML;
+
+            trainingFrequency = trainingFrequency.trim() === 'Training Frequency' ? '2' : trainingFrequency;
+
+            trainingFrequency = parseInt(trainingFrequency, 10);
+
+            // Determine max sessions based on user selection
+            const maxSessions = trainingFrequency === 1 ? 1 : trainingFrequency === 2 ? 2 :
+                trainingFrequency === 3 ? 3 :
+                    trainingFrequency === 4 ? 10 : 0;
+
+            const combinedInputValue = parseInt(combinedInput.value) || 0;
+            const cardioInputValue = parseInt(cardioInput.value) || 0;
+            const resistanceInputValue = parseInt(resistanceInput.value) || 0;
+
+            if (combinedInputValue < 0 || cardioInputValue < 0 || resistanceInputValue < 0) {
+                if (combinedInputValue != 0 && combinedInputValue < 1) {
+                    combinedInput.value = 1;
+                }
+
+                if (cardioInputValue != 0 && cardioInputValue < 1) {
+                    cardioInput.value = 1;
+                }
+
+                if (resistanceInputValue != 0 && resistanceInputValue < 1) {
+                    resistanceInput.value = 1;
+                }
+
+                return;
+            }
+
+            if (maxSessions === 1) {
+                if (combinedInputValue > 1 || cardioInputValue > 1 || resistanceInputValue > 1) {
+                    resetInputs();
+                    alert("Please Enter 1 not greater than 1!");
+                    return;
+                }
+            }
+
+            if (maxSessions === 2) {
+                if (combinedInputValue > 2 || cardioInputValue > 2 || resistanceInputValue > 2) {
+                    resetInputs();
+                    alert("Please Enter 2 or less than 2!");
+                    return;
+                }
+            }
+
+            if (maxSessions === 3) {
+                if (combinedInputValue > 3 || cardioInputValue > 3 || resistanceInputValue > 3) {
+                    resetInputs();
+                    alert("Please Enter 3 or less than 3!");
+                    return;
+                }
+            }
+
+            if (maxSessions === 10) {
+                if (combinedInputValue > 10 || cardioInputValue > 10 || resistanceInputValue > 10) {
+                    resetInputs();
+                    alert("Please Enter 10 or less than 10!");
+                }
+
+                return;
+            }
+
+            // Calculate the total sessions entered by the user
+            const totalSessions = combinedInputValue + cardioInputValue + resistanceInputValue;
+
+            // Update input fields based on total sessions and training frequency
+            [combinedInput, cardioInput, resistanceInput].forEach(input => {
+                if (maxSessions !== Infinity && totalSessions >= maxSessions && parseInt(input.value) === 0) {
+                    input.disabled = true; // Disable fields if total is reached (except for +4)
+                } else {
+                    input.disabled = false; // Enable fields if below total
+                }
+            });
+        }
+
+        const combinedInput = document.getElementById('combinedInput');
+        const cardioInput = document.getElementById('cardioInput');
+        const resistanceInput = document.getElementById('resistanceInput');
+
+        const cardioModal = new bootstrap.Modal(document.getElementById('cardioModal'));
+        const combineModal = new bootstrap.Modal(document.getElementById('combineModal'));
+        const resistanceModal = new bootstrap.Modal(document.getElementById('resistanceModal'));
+
+        function handleFocus(event, traningTypeInput) {
+            const input = event.target;
+
+            if (!input.dataset.focused) {
+                if (traningTypeInput === 'cardioInput') {
+                    cardioModal.show();
+                    setTimeout(() => {
+                        cardioModal.hide();
+                    }, 100000);
+                }
+
+                if (traningTypeInput === 'combinedInput') {
+                    combineModal.show();
+                    setTimeout(() => {
+                        combineModal.hide();
+                    }, 100000);
+                }
+
+                if (traningTypeInput === 'resistanceInput') {
+                    resistanceModal.show();
+                    setTimeout(() => {
+                        resistanceModal.hide();
+                    }, 100000);
+                }
+
+                input.dataset.focused = 'true';
+            }
+        }
+        function handleEventForInput(e) {
+            const value = e.target.value;
+
+            const isValid = /^-?\d+(\.\d?)?$/.test(value);
+
+            if (!isValid) {
+                e.target.value = value.slice(0, -1);
+            }
+        }
+        cardioInput.addEventListener('focus', (event) => handleFocus(event, 'cardioInput'));
+        combinedInput.addEventListener('focus', (event) => handleFocus(event, 'combinedInput'));
+        resistanceInput.addEventListener('focus', (event) => handleFocus(event, 'resistanceInput'));
+
+        currentVo2Max.addEventListener('input', handleEventForInput);
+
+
+
+        function handleEventForOnchange(e) {
+            const value = e.target.value;
+            document.querySelector('#current-vo2max-warning').textContent = '';
+
+            const toaster = document.getElementById('toaster');
+
+            if (value > 80) {
+                toaster.textContent = "⚠️ Warning: please enter current vo2 max less than 80!";
+                toaster.classList.add('show');
+                setTimeout(() => {
+                    toaster.classList.remove('show');
+                }, 3000);
+
+                e.target.value = 80;
+                return;
+            } else if (value < 10) {
+                toaster.textContent = "⚠️ Warning: please enter current vo2 max greater than 10!";
+                toaster.classList.add('show');
+                setTimeout(() => {
+                    toaster.classList.remove('show');
+                }, 3000);
+
+                e.target.value = 10;
+                return;
+            }
+        }
+        currentVo2Max.addEventListener('change', handleEventForOnchange);
+    });    
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+    document.getElementById('download-pdf').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        // Add Logo in the top-right corner
+        const logoImg = new Image();
+        logoImg.src = '../images/logo-pdf-vo2-calculator.png'; // Provide the correct path to your logo
+        const sharpIcon = new Image();
+        sharpIcon.src = './images/shape-pdf-v02-calculator.png'; // Provide the correct path to your Sharp icon
+
+        logoImg.onload = () => {
+            doc.addImage(logoImg, 'PNG', 160, 10, 40, 30); // Adjust size and position as needed
+
+            // Add Heading in Blue Bordered Box
+            doc.setDrawColor(78, 111, 130); // Blue border color
+            doc.setLineWidth(1);
+            doc.rect(25, 50, 160, 15); // Draw a rectangle for the heading box
+            doc.setTextColor(78, 111, 130); // Set text color to desired RGB
+            doc.setFont('helvetica', 'bold'); // Set the font to bold
+            doc.setFontSize(20);
+            doc.text("Your VO2 Max Prediction Results", 105, 60, { align: "center" });
+
+            // First Row: Two Square Boxes
+            doc.setDrawColor(78, 111, 130); // Black border color
+            doc.setLineWidth(0.5);
+
+            // First Box with Heading (Pink Box moved Left 20px)
+            doc.rect(25, 90, 75, 60); // Main box dimensions
+            doc.setFillColor(248, 149, 133); // Pink color for heading
+            doc.rect(22 - 20, 74, 89, 25, 'F'); // Heading background moved 20px left
+            doc.setFontSize(11);
+            doc.setTextColor(0, 0, 0); // Set text color to desired RGB
+            doc.setFont('helvetica', 'bold'); // Bold font
+            doc.text("CURRENT RANKING FOR ", 55.5, 83, { align: "center" }); // Heading centered in pink box
+            doc.text("YOUR AGE GROUP", 55.5, 93, { align: "center" }); // Heading centered in pink box
+            doc.addImage(sharpIcon, 'PNG', -65, 46, 160, 80); // Add Sharp icon in the pink box
+
+            const currentRanking = document.querySelector('#fitness-special-text').textContent;
+            doc.setFontSize(14);
+            doc.text(currentRanking, 62.5, 120, { align: "center" });
+
+            // Second Box with Heading (Pink Box moved Right 20px)
+            doc.rect(110, 90, 75, 60); // Main box dimensions
+            doc.setFillColor(248, 149, 133); // Pink color for heading
+            doc.rect(107 + 20, 74, 81, 25, 'F'); // Heading background moved 20px right
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold'); // Bold font
+            doc.text("YOUR CURRENT SCORE", 179.5, 87, { align: "center" }); // Heading centered in pink box
+            doc.addImage(sharpIcon, 'PNG', 60, 46, 160, 80); // Add Sharp icon in the pink box
+
+            const currentScore = 23;
+            doc.setFontSize(18);
+            doc.text(`${currentScore} ML/KG/MIN`, 147.5, 120, { align: "center" });
+
+            // Second Row: Heading for Weeks of Training
+            const weeksNumber = document.querySelector('#weeks-durations').textContent;
+            doc.setFontSize(20);
+            doc.text(`AFTER ${weeksNumber} WEEKS TRAINING`, 105, 165, { align: "center" });
+
+            // Third Row: Two Square Boxes
+            doc.rect(25, 190, 75, 60); // Main box dimensions
+            doc.setFillColor(248, 149, 133); // Pink color for heading
+            doc.rect(22 - 20, 174, 89, 25, 'F'); // Heading background moved 20px left
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold'); // Bold font
+            doc.text("PREDICTED FITNESS RANKING", 57.5, 183, { align: "center" });
+            doc.text("FOR YOUR AGE GROUP", 57.5, 193, { align: "center" }); // Second line of the heading centered in pink box
+            doc.addImage(sharpIcon, 'PNG', -65, 146, 160, 80); // Add Sharp icon in the pink box
+
+            const predictedRanking = document.querySelector('.improve-fitness-ranking').textContent;
+            doc.setFontSize(14);
+            doc.text(predictedRanking, 62.5, 220, { align: "center" });
+
+            // Second Box with Heading (Pink Box moved Right 20px)
+            doc.rect(110, 190, 75, 60); // Main box dimensions
+            doc.setFillColor(248, 149, 133); // Pink color for heading
+            doc.rect(107 + 20, 174, 81, 25, 'F'); // Heading background moved 20px right
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold'); // Bold font
+            doc.text("NEW VO2 MAX SCORE", 175.5, 187, { align: "center" }); // Heading centered in pink box
+            doc.addImage(sharpIcon, 'PNG', 60, 146, 160, 80); // Add Sharp icon in the pink box
+
+            const newVo2Max = document.querySelector('#fitness-special-text').textContent;
+            doc.setFontSize(14);
+            doc.text(`${newVo2Max} ML/KG/MIN`, 147.5, 220, { align: "center" });
+            // Fourth Row: Single Centered Box
+            doc.rect(52.5, 250, 95, 40); // Main box dimensions for a centered box
+            doc.setFillColor(248, 149, 133); // Pink color for heading
+            doc.rect(59.5, 237, 81, 25, 'F'); // Heading background centered
+            doc.setFontSize(11);
+            doc.setFont('helvetica', 'bold'); // Bold font
+            doc.text("PREDICTED FITNESS", 110, 245, { align: "center" });
+            doc.text("IMPROVEMENT %", 110, 255, { align: "center" }); // Second line of the heading centered
+            doc.addImage(sharpIcon, 'PNG', -7, 209, 160, 80); // Add Sharp icon in the pink box
+
+            const predictedImprovement = document.querySelector('#fitness-special-text').textContent;
+            doc.setFontSize(14);
+            doc.text(predictedImprovement, 100, 280, { align: "center" });
+            // Save the PDF
+            doc.save("vo2-max-prediction-results.pdf");
+        };
+    });
+
+</script>
