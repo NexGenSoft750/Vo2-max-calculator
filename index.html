@@ -821,6 +821,7 @@
         text-align: center;
         pointer-events: none;
         opacity: 100;
+        z-index: 0;
         /* Prevent tooltip interaction */
     }
 
@@ -856,7 +857,7 @@
         }
 
         #dropdown-options-frequency div {
-            padding: 20.3px;
+            padding: 22.3px;
         }
 
         .third-section {
@@ -979,6 +980,15 @@
             font-size: 9.5px;
         }
 
+        #tooltipAge{
+            left: 92.6897px;
+
+        }
+
+        #tooltipDuration{
+            left: 129.902px;
+        }
+
         .training-type-heading {
             padding: 15px;
         }
@@ -1071,7 +1081,7 @@
         }
 
         #dropdown-options-frequency div {
-            padding: 26px;
+            padding: 28.2px;
         }
     }
 
@@ -1147,7 +1157,7 @@
                         </div>
                         <div class="slider-container" style="position: relative;">
                             <div class="range-slider">
-                                <input type="range" id="age-input" min="18" max="105" value="16" class="slider" />
+                                <input type="range" id="age-input" min="18" max="105" value="60" class="slider" />
                                 <div class="tooltip" id="tooltipAge">Enter you current age</div>
                                 <!-- <output class="output1"></output> -->
                                 <!-- <span class="warnings" id="" style="margin-left: 90px; margin-top: 6px;">Please select
@@ -1190,7 +1200,7 @@
                         planned training duration using the slider.</span> -->
                     <div class="slider-container-training">
                         <div class="range-slider">
-                            <input type="range" id="training-duration-input" min="1" max="52" value="1"
+                            <input type="range" id="training-duration-input" min="1" max="52" value="26"
                                 class="slider" />
                             <div class="tooltip" id="tooltipDuration">Enter The Planned Training Duration in weeks (e.g.
                                 6 weeks)</div>
@@ -1231,7 +1241,7 @@
                             <div class="training-option" id="option-1">
                                 <div class="training-btn">
                                     <label class="training-types-box">
-                                        Combined Resistance and HIIT
+                                        Combined Resistance + Intervals (HIIT)
                                         <input class="traningTypeLimits" type="text" id="combinedInput" name="combined"
                                             value="0">
                                     </label>
@@ -1325,7 +1335,7 @@
         </form>
     </div>
 </div>
-<div class="modal fade" id="cardioModal" tabindex="-1" aria-hidden="true">
+<!-- <div class="modal fade" id="cardioModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered align-items-start">
         <div class="modal-content">
             <div class="image-container">
@@ -1369,12 +1379,12 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Frequency  -->
 
 
-<div class="modal fade" id="frequency1Model" tabindex="-1" aria-hidden="true">
+<!-- <div class="modal fade" id="frequency1Model" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered align-items-start">
         <div class="modal-content">
             <div class="image-container">
@@ -1422,7 +1432,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- training status  -->
 
@@ -1927,9 +1937,21 @@
             cardioInput.disabled = false;
             resistanceInput.disabled = false;
 
-            document.querySelector('.improve-fitness-ranking').innerHTML = '___';
-            document.querySelector('.predicted-percetage').innerHTML = '___';
-            document.querySelector('.new-vo2-max').innerHTML = '___';
+            document.querySelectorAll('.new-vo2-max').forEach((element) => {
+                element.innerHTML = '___';
+            })
+
+            document.querySelectorAll('.predicted-percetage').forEach((element) => {
+                element.innerHTML = '___';
+            })
+
+            document.querySelectorAll('.improve-fitness-ranking').forEach((element) => {
+                element.innerHTML = '___';
+            });
+
+            // document.querySelector('.improve-fitness-ranking').innerHTML = '___';
+            // document.querySelector('.predicted-percetage').innerHTML = '___';
+            // document.querySelector('.new-vo2-max').innerHTML = '___';
         });
 
 
